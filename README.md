@@ -6,6 +6,8 @@ description: Realizando Tunneling (pivoting) y Port Forwarding 101
 
 Por lo general cuando hablamos de pivoting las personas en el mundo de la informatica conocen el termino y aseguran saber lo referente al tema. Sin embargo la realidad es distinto cuando pasas a la practica \(mi caso\) en el que muchos caemos. Sin embargo, me dedique el fin de semana a realizar el lab sobre pivoting para entender su proceso y diversas tecnicas que permitan realizar el pivoting, tunneling o hasta un simple Port Forwarding, asi como aseguro en mi post de twiiter [https://twitter.com/jeg1200/status/1358634667054944258?s=20](https://twitter.com/jeg1200/status/1358634667054944258?s=20)
 
+insertar parte donde indica que para realizar el lab en otras plataformas requieren pagar para realizar este tipo de escenario
+
 ## Para este lab. vamos a necesitar 3 maquinas virtuales:
 
 1. Kali
@@ -44,6 +46,8 @@ Agregar APACHE
 
 ## Port Forwarding
 
+### Para realizar el Port Forwarding utilizando la herramientas de metasploit y por medio de EDITARRR!!!
+
 ### Utilizando Metasploit
 
 Consiste en establecer una conexión segura entre un usuario remoto y las máquinas locales.
@@ -75,10 +79,12 @@ Una vez ingresado estos parametros tendremos las siguientes salidas
 
 Seguido corremos nuestro netstat y podremos observar que:
 
-1. claramente estamos dentro de la ubuntu
+1. claramente estamos dentro de la ubuntu EDITAR!!!!!
 2. podemos que esta el apache corriendo sobre el puerto 8080
 
 ![](.gitbook/assets/image%20%282%29.png)
+
+EDITAR!! \(COLOCAR DESCRIPCION DEL NETSTAT Y COLOCAR CUANDO NO PUEDES INGRESAR POR QUE NO LO ALCANSAS
 
 Conociendo ya esto info utilizaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirecciòn de puertos.
 
@@ -167,7 +173,7 @@ sshuttle -vr juss@192.168.1.139 172.16.250.129/16
 
 La cual detallamos de la sigueintee manera:
 
-* -vr  este flag indica con la \(-v\) de verbose, de esta manera obtendremos una salida a la sentencia para poder ver lo que ocurre en el momento
+* -v  este flag indica con la \(-v\) de verbose, de esta manera obtendremos una salida a la sentencia para poder ver lo que ocurre en el momento
 * -r permite ingresar un usuario.
 * seguido el usuario junto con la direcciòn ip 192.168.1.139 \(ubuntu\) y la direcciòn del segmento o cidr 172.16.250.129/16 \(metasploitable\) 
 
