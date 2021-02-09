@@ -24,21 +24,21 @@ Ubuntu y Metasploitable 2 en la VirtualBox
 
 Para nuestra Kali vamos a tener la configuracion de su red en Bridged.
 
-![](.gitbook/assets/image%20%281%29.png)
+![](.gitbook/assets/image%20%283%29.png)
 
 Nuestro Ubuntu tendra conexion con dos redes, la cual sera Bridged y un adaptador Only-Host \#4 que comparte con la metasploitable.
 
-![](.gitbook/assets/image%20%288%29.png)
+![](.gitbook/assets/image%20%2813%29.png)
 
 Nuestra Metasploitable tendra solo conexion al adaptador Only-Host \#4 
 
-![](.gitbook/assets/image%20%282%29.png)
+![](.gitbook/assets/image%20%286%29.png)
 
 De esta manera tendremos que: Nuestra Kali comparte el mismo segmento de red que nuestra ubuntu, y nuestra ubuntu tiene acceso a la misma red que nuestra metasploitable. Pero nuesra Kali no ve la Metasploitable.
 
 De igual manera es importante no mantener confunsion en esta parte ya que el lab puede salir mal \(creanme puede salir todo mal..\). 
 
-![](.gitbook/assets/image%20%287%29.png)
+![](.gitbook/assets/image%20%2812%29.png)
 
 #### Configuraciones...parte 2
 
@@ -77,14 +77,14 @@ netstat -antp
 
 Una vez ingresado estos parametros tendremos las siguientes salidas
 
-![](.gitbook/assets/image%20%286%29.png)
+![](.gitbook/assets/image%20%2810%29.png)
 
 Seguido corremos nuestro netstat y podremos observar que:
 
 1. claramente estamos dentro de la ubuntu
 2. podemos que esta el apache corriendo sobre el puerto 8080
 
-![](.gitbook/assets/image.png)
+![](.gitbook/assets/image%20%281%29.png)
 
 Conociendo ya esto info utilizaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirecciòn de puertos.
 
@@ -94,11 +94,11 @@ portfwd add -l 8081 -p 8080 -r 127.0.0.1
 
 El comando portfwd, es un comando que funciona para realizar redirecciones de puertos. De esta manera podemos enviar todo el trafico de nuestro puerto 8080 \(Ubuntu\) a nuestro puerto 8081 \(kali\). El comando add para añadir. La bander -l indica cual sera nuestro puerto escucha, la bander -p es el puerto a cual queremos conectarnos y el flag -r es el ip de la maquina a la que nos estamos conectando.
 
-![](.gitbook/assets/image%20%284%29.png)
+![](.gitbook/assets/image%20%288%29.png)
 
 Seguido de esto realizamos la prueba abriendo nuestro navegador en la kali con la direccciòn del localhost:8081
 
-![](.gitbook/assets/image%20%285%29.png)
+![](.gitbook/assets/image%20%289%29.png)
 
 Y como asegura el Apache2.. It works!
 
@@ -121,13 +121,67 @@ Este comando se traduce de la siguiente manera:
 * -l para especificar el usuario de la maquina remota \(Ubuntu\)
 * y seguido la ip de nuestra Ubuntu
 
-![](.gitbook/assets/image%20%2811%29.png)
+![](.gitbook/assets/image%20%2816%29.png)
 
 Como se menciono anteriormente nuestro ssh paso al background y revisamos en nuestro explorador la ruta localhost:8081
 
-![](.gitbook/assets/image%20%2810%29.png)
+![](.gitbook/assets/image%20%2815%29.png)
 
 De esta manera conseguimos realizar un portForwarding entre nuestras maquinas.
 
 ### Tunneling 
+
+Este es el proceso que se utiliza para acceder a los recursos de una red desde una red publica. Quiere decir que a tavez de esta tecnica podremos llegar a una subnet dentro de una red a la que desde un principio no tenemos acceso.
+
+Para este lab como se meciono anteriormente utilizaremos el Metasploitable como victima...
+
+#### Sshuttle
+
+Esta herramienta nos permite enrutar redes ssh como si fuese conexiones de vpn.
+
+Con el Sshuttle realizaremos una conexiòn desde nuestra kali, hacia nuestro Ubuntu, llamando a la red o ip del metasploitable
+
+Para este Lab necesitamos tener nuestras ips a mano.
+
+Kali
+
+![](.gitbook/assets/image%20%284%29.png)
+
+Ubuntu
+
+![](.gitbook/assets/image.png)
+
+Metasploitable 2
+
+![](.gitbook/assets/image%20%285%29.png)
+
+Seguido, como primer paso debemos realizar la instalacion de nuestro Sshuttle
+
+```text
+apt install sshuttle
+```
+
+En este caso como ya tengo instalado el Sshuttle me saldra el siguiente mensaje
+
+![](.gitbook/assets/image%20%2811%29.png)
+
+Una vez ya instalado corremos la setencia 
+
+```text
+sshuttle -vr juss@192.168.1.139 172.16.250.129/16  
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
