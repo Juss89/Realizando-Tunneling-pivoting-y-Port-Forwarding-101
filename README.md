@@ -28,17 +28,17 @@ Para nuestra Kali vamos a tener la configuracion de su red en Bridged.
 
 Nuestro Ubuntu tendra conexion con dos redes, la cual sera Bridged y un adaptador Only-Host \#4 que comparte con la metasploitable.
 
-![](.gitbook/assets/image%20%2826%29.png)
+![](.gitbook/assets/image%20%2828%29.png)
 
 Nuestra Metasploitable tendra solo conexion al adaptador Only-Host \#4 
 
-![](.gitbook/assets/image%20%2813%29.png)
+![](.gitbook/assets/image%20%2814%29.png)
 
 De esta manera tendremos que: Nuestra Kali comparte el mismo segmento de red que nuestra ubuntu, y nuestra ubuntu tiene acceso a la misma red que nuestra metasploitable. Pero nuesra Kali no ve la Metasploitable.
 
 De igual manera es importante no mantener confunsion en esta parte ya que el lab puede salir mal \(creanme puede salir todo mal..\). 
 
-![](.gitbook/assets/image%20%2824%29.png)
+![](.gitbook/assets/image%20%2826%29.png)
 
 #### Configuraciones...parte 2
 
@@ -77,7 +77,7 @@ netstat -antp
 
 Una vez ingresado estos parametros tendremos las siguientes salidas
 
-![](.gitbook/assets/image%20%2820%29.png)
+![](.gitbook/assets/image%20%2822%29.png)
 
 Seguido corremos nuestro netstat y podremos observar que:
 
@@ -94,11 +94,11 @@ portfwd add -l 8081 -p 8080 -r 127.0.0.1
 
 El comando portfwd, es un comando que funciona para realizar redirecciones de puertos. De esta manera podemos enviar todo el trafico de nuestro puerto 8080 \(Ubuntu\) a nuestro puerto 8081 \(kali\). El comando add para añadir. La bander -l indica cual sera nuestro puerto escucha, la bander -p es el puerto a cual queremos conectarnos y el flag -r es el ip de la maquina a la que nos estamos conectando.
 
-![](.gitbook/assets/image%20%2816%29.png)
+![](.gitbook/assets/image%20%2818%29.png)
 
 Seguido de esto realizamos la prueba abriendo nuestro navegador en la kali con la direccciòn del localhost:8081
 
-![](.gitbook/assets/image%20%2819%29.png)
+![](.gitbook/assets/image%20%2821%29.png)
 
 Y como asegura el Apache2.. It works!
 
@@ -121,11 +121,11 @@ Este comando se traduce de la siguiente manera:
 * -l para especificar el usuario de la maquina remota \(Ubuntu\)
 * y seguido la ip de nuestra Ubuntu
 
-![](.gitbook/assets/image%20%2834%29.png)
+![](.gitbook/assets/image%20%2836%29.png)
 
 Como se menciono anteriormente nuestro ssh paso al background y revisamos en nuestro explorador la ruta localhost:8081
 
-![](.gitbook/assets/image%20%2832%29.png)
+![](.gitbook/assets/image%20%2834%29.png)
 
 De esta manera conseguimos realizar un portForwarding entre nuestras maquinas.
 
@@ -153,7 +153,7 @@ Ubuntu
 
 Metasploitable 2
 
-![](.gitbook/assets/image%20%2812%29.png)
+![](.gitbook/assets/image%20%2813%29.png)
 
 Seguido, como primer paso debemos realizar la instalacion de nuestro Sshuttle
 
@@ -163,7 +163,7 @@ apt install sshuttle
 
 En este caso como ya tengo instalado el Sshuttle me saldra el siguiente mensaje
 
-![](.gitbook/assets/image%20%2821%29.png)
+![](.gitbook/assets/image%20%2823%29.png)
 
 Una vez ya instalado corremos la setencia 
 
@@ -176,7 +176,7 @@ La cual detallamos de la sigueintee manera:
 * -vr  este flag indica con la \(-v\) de verbose, de esta manera obtendremos una salida a la sentencia para poder ver lo que ocurre en el momento y la \(r\) permite ingresar un usuario.
 * seguido el usuario junto con la direcciòn ip 192.168.1.139 \(ubuntu\) y la direcciòn del segmento o cidr 172.16.250.129/16 \(metasploitable\) 
 
-![](.gitbook/assets/image%20%2814%29.png)
+![](.gitbook/assets/image%20%2816%29.png)
 
 Una vez ejecutado la sentencia podemos observar en nuestro explorador de la Kali la ip del metasploitable
 
@@ -237,11 +237,11 @@ https://github.com/andrew-d/static-binaries/blob/master/binaries/linux/x86_64/nm
 python -m SimpleHTTPServer 80
 ```
 
-![](.gitbook/assets/image%20%2830%29.png)
+![](.gitbook/assets/image%20%2832%29.png)
 
 y desde nuestra Ubuntu podemos descargarlo en la carpeta de temporales \(tmp\)
 
-![](.gitbook/assets/image%20%2833%29.png)
+![](.gitbook/assets/image%20%2835%29.png)
 
 Una vez ya descargado nuestro binario debemos darle permiso de ejecucion con el comando chmod indicando las caracteristicas de ejecucion \(+x\)
 
@@ -255,7 +255,7 @@ y lo ejecutamos con la siguiente sentencia
 ./nmap -Pn 172.16.250.133
 ```
 
-![](.gitbook/assets/image%20%2823%29.png)
+![](.gitbook/assets/image%20%2825%29.png)
 
 Al tener ya los puertos abiertos y listados de la Metasploitable 2 podemos proceder con nuestro comando de chisel.
 
@@ -275,11 +275,11 @@ Al ejecutar este comando tendremos la siguiente salida
 
 Y en nuestra kali veremos que obtuvimos la sesion 1 
 
-![](.gitbook/assets/image%20%2825%29.png)
+![](.gitbook/assets/image%20%2827%29.png)
 
 Revisamos nuestro explorador con la direcciòn del localhost:5000
 
-![](.gitbook/assets/image%20%2817%29.png)
+![](.gitbook/assets/image%20%2819%29.png)
 
 
 
@@ -299,13 +299,13 @@ Y en nuestro Ubuntu corremos otra sentencia del chisel pero cambiando los puerto
 ./chisel client 192.168.1.144:8001 R:7000:172.16.250.133:22
 ```
 
-![](.gitbook/assets/image%20%2831%29.png)
+![](.gitbook/assets/image%20%2833%29.png)
 
 Ahora revisamos nuestra kali....
 
 Tenemos que se realizo una conexiòn en chisel por el puerto 7000
 
-![](.gitbook/assets/image%20%2822%29.png)
+![](.gitbook/assets/image%20%2824%29.png)
 
 y probamos en este caso conectarnos desde nuestro localhost al puerto 7000 e ingresamos la pass de nuestro Metasploitable
 
@@ -333,7 +333,7 @@ El cual detallamos a continuaciòn:
 
 * -D 7000 permite que el soket de nuestor equipo Kali escuche por ese puerto el direcionamiento que proviene de la maquina Ubuntu que nos estamos conectando. Este paremetro funciona tanto para SOCKS4 y SOCKS5
 
-![](.gitbook/assets/image%20%2829%29.png)
+![](.gitbook/assets/image%20%2831%29.png)
 
 Seguido realizamos la configuracion en nuestro explorador
 
@@ -342,7 +342,7 @@ Seguido realizamos la configuracion en nuestro explorador
 * selecionamos en Port el puerto 7000 y que sea en SOCKS v5
 * colocamos en el area de "no proxy for" la direccion del localhost
 
-![](.gitbook/assets/image%20%2827%29.png)
+![](.gitbook/assets/image%20%2829%29.png)
 
 ![](.gitbook/assets/image%20%289%29.png)
 
@@ -350,15 +350,39 @@ Seguido realizamos la configuracion en nuestro explorador
 
 Le damos click en OK y cargamos la paguina con la direcciòn del metasploitable
 
-![](.gitbook/assets/image%20%2818%29.png)
+![](.gitbook/assets/image%20%2820%29.png)
 
 De esta manera podemos ver la metasploitable2 desde nuestro kali
 
 
 
+**Local SSH Tunneling o Tunel SSH local**
 
+Esta tecnica permite realizar la conexiòn hacia nuestro Metasploitable2, desde el Ubuntu utilizando nuestra Kali con el flag -L
 
+```text
+ssh -L 7000:172.16.250.133:22 juss@192.168.1.139
+```
 
+Esta sentencia se detalla de la siguiente manera:
+
+* -L 7000 indica el puerto escucha de la Kali
+* :172.16.250.133:22 representa el ip de la Metasploitable con su puerto 22 \(SSH\)
+* juss@192.168.1.139 es el usuario de la maquina Ubuntu con su ip
+
+![](.gitbook/assets/image%20%2815%29.png)
+
+Una vez tenemos acceso estamos enviando el trafico de la Metasploitable2 a nuestro puerto 7000.
+
+Ingresamos con el ssh al puerto 7000 y colocamos la contraseña
+
+```text
+ssh msfadmin@127.0.0.1 -p 7000
+```
+
+![](.gitbook/assets/image%20%2812%29.png)
+
+Y como dice el Apache ...It Works!
 
 
 
