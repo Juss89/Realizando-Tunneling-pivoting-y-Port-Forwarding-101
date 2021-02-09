@@ -182,7 +182,11 @@ Una vez ejecutado la sentencia podemos observar en nuestro explorador de la Kali
 
 ![](.gitbook/assets/image%20%283%29.png)
 
+De esta manera con la herramienta Sshuttle podemos ver desde nuestra kali el segmento de red que mantiene la Metasploitable.
 
+
+
+#### Chisel
 
 
 
