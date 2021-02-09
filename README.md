@@ -36,7 +36,7 @@ De esta manera tendremos que: Nuestra Kali comparte el mismo segmento de red que
 
 De igual manera es importante no mantener confunsion en esta parte ya que el lab puede salir mal \(creanme puede salir todo mal..\).
 
-![](.gitbook/assets/image%20%2826%29.png)
+![](.gitbook/assets/image%20%2830%29.png)
 
 ### Configuraciones...parte 2
 
@@ -167,7 +167,8 @@ sshuttle -vr juss@192.168.1.139 172.16.250.129/16
 
 La cual detallamos de la sigueintee manera:
 
-* -vr  este flag indica con la \(-v\) de verbose, de esta manera obtendremos una salida a la sentencia para poder ver lo que ocurre en el momento y la \(r\) permite ingresar un usuario.
+* -vr  este flag indica con la \(-v\) de verbose, de esta manera obtendremos una salida a la sentencia para poder ver lo que ocurre en el momento
+* -r permite ingresar un usuario.
 * seguido el usuario junto con la direcciòn ip 192.168.1.139 \(ubuntu\) y la direcciòn del segmento o cidr 172.16.250.129/16 \(metasploitable\) 
 
 ![](.gitbook/assets/image%20%2816%29.png)
