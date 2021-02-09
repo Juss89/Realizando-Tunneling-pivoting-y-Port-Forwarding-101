@@ -24,11 +24,11 @@ Configuraciones...parte 1
 
 Para nuestra Kali vamos a tener la configuracion de su red en Bridged.
 
-![](.gitbook/assets/image.png)
+![](.gitbook/assets/image%20%281%29.png)
 
 Nuestro Ubuntu tendra conexion con dos redes, la cual sera Bridged y un adaptador Only-Host \#4 que comparte con la metasploitable.
 
-![](.gitbook/assets/image%20%281%29.png)
+![](.gitbook/assets/image%20%288%29.png)
 
 Nuestra Metasploitable tendra solo conexion al adaptador Only-Host \#4 
 
@@ -38,7 +38,7 @@ De esta manera tendremos que: Nuestra Kali comparte el mismo segmento de red que
 
 De igual manera es importante no mantener confunsion en esta parte ya que el lab puede salir mal \(creanme puede salir todo mal..\). 
 
-![](.gitbook/assets/image%20%284%29.png)
+![](.gitbook/assets/image%20%287%29.png)
 
 Configuraciones...parte 2
 
@@ -75,14 +75,14 @@ netstat -antp
 
 Una vez ingresado estos parametros tendremos las siguientes salidas
 
-![](.gitbook/assets/image%20%285%29.png)
+![](.gitbook/assets/image%20%286%29.png)
 
 Seguido corremos nuestro netstat y podremos observar que:
 
 1. claramente estamos dentro de la ubuntu
 2. podemos que esta el apache corriendo sobre el puerto 8080
 
-![](.gitbook/assets/image%20%286%29.png)
+![](.gitbook/assets/image.png)
 
 Conociendo ya esto info utilizaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirecciòn de puertos.
 
@@ -90,9 +90,15 @@ Conociendo ya esto info utilizaremos el siguiente comando para poder realizar nu
 portfwd add -l 8081 -p 8080 -r 127.0.0.1
 ```
 
-El comando portfwd, es un comando que funciona para realizar redirecciones de puertos. De esta manera podemos enviar todo el trafico de nuestro puerto 8080 \(Ubuntu\) a nuestro puerto 8081 \(kali\). El comando add para añadir. La bander -l indica cual sera nuestro puerto escucha, la bander -p es el puerto a cual queremos conectarnos y el flag -r es el ip de la maquina al que nos estamos conectando.
+El comando portfwd, es un comando que funciona para realizar redirecciones de puertos. De esta manera podemos enviar todo el trafico de nuestro puerto 8080 \(Ubuntu\) a nuestro puerto 8081 \(kali\). El comando add para añadir. La bander -l indica cual sera nuestro puerto escucha, la bander -p es el puerto a cual queremos conectarnos y el flag -r es el ip de la maquina a la que nos estamos conectando.
 
+![](.gitbook/assets/image%20%284%29.png)
 
+Seguido de esto realizamos la prueba abriendo nuestro navegador en la kali con la direccciòn del localhost:8081
+
+![](.gitbook/assets/image%20%285%29.png)
+
+Y como asegura el Apache2.. It works!
 
 
 
