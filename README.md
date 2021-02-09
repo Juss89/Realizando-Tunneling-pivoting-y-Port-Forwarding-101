@@ -18,7 +18,29 @@ Kali configurada en la VMware
 
 Ubuntu y Metasploitable 2 en la VirtualBox
 
+
+
 Configuraciones...parte 1
+
+Para nuestra Kali vamos a tener la configuracion de su red en Bridged.
+
+![](.gitbook/assets/image.png)
+
+Nuestro Ubuntu tendra conexion con dos redes, la cual sera Bridged y un adaptador Only-Host \#4 que comparte con la metasploitable.
+
+![](.gitbook/assets/image%20%281%29.png)
+
+Nuestra Metasploitable tendra solo conexion al adaptador Only-Host \#4 
+
+![](.gitbook/assets/image%20%282%29.png)
+
+De esta manera tendremos que: Nuestra Kali comparte el mismo segmento de red que nuestra ubuntu, y nuestra ubuntu tiene acceso a la misma red que nuestra metasploitable. Pero nuesra Kali no ve la Metasploitable.
+
+De igual manera es importante no mantener confunsion en esta parte ya que el lab puede salir mal \(creanme puede salir todo mal..\). 
+
+![](.gitbook/assets/image%20%284%29.png)
+
+#### Port Forwarding
 
 
 
