@@ -20,7 +20,7 @@ Ubuntu y Metasploitable 2 en la VirtualBox
 
 
 
-Configuraciones...parte 1
+#### Configuraciones...parte 1
 
 Para nuestra Kali vamos a tener la configuracion de su red en Bridged.
 
@@ -40,7 +40,7 @@ De igual manera es importante no mantener confunsion en esta parte ya que el lab
 
 ![](.gitbook/assets/image%20%287%29.png)
 
-Configuraciones...parte 2
+#### Configuraciones...parte 2
 
 Agregar APACHE 
 
