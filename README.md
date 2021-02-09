@@ -4,9 +4,9 @@ description: Realizando Tunneling (pivoting) y Port Forwarding 101
 
 # Realizando Tunneling \(pivoting\) y Port Forwarding 101
 
-Por lo general cuando hablamos de pivoting las personas en el mundo de la informatica conocen el termino y aseguran saber lo referente al tema. Sin embargo la realidad es distinto cuando pasas a la practica \(mi caso\) en el que muchos caemos. Sin embargo, me dedique el fin de semana a realizar el lab sobre pivoting para entender su proceso y diversas tecnicas que permitan realizar  el pivoting, tunneling o hasta un simple Port Forwarding, asi como aseguro en mi post de twiiter [https://twitter.com/jeg1200/status/1358634667054944258?s=20](https://twitter.com/jeg1200/status/1358634667054944258?s=20)
+Por lo general cuando hablamos de pivoting las personas en el mundo de la informatica conocen el termino y aseguran saber lo referente al tema. Sin embargo la realidad es distinto cuando pasas a la practica \(mi caso\) en el que muchos caemos. Sin embargo, me dedique el fin de semana a realizar el lab sobre pivoting para entender su proceso y diversas tecnicas que permitan realizar el pivoting, tunneling o hasta un simple Port Forwarding, asi como aseguro en mi post de twiiter [https://twitter.com/jeg1200/status/1358634667054944258?s=20](https://twitter.com/jeg1200/status/1358634667054944258?s=20)
 
-### Para este lab. vamos a necesitar 3 maquinas virtuales:
+## Para este lab. vamos a necesitar 3 maquinas virtuales:
 
 1. Kali
 2. Ubuntu puede ser la version 18 o la ultima version
@@ -18,9 +18,7 @@ Kali configurada en la VMware
 
 Ubuntu y Metasploitable 2 en la VirtualBox
 
-
-
-#### Configuraciones...parte 1
+### Configuraciones...parte 1
 
 Para nuestra Kali vamos a tener la configuracion de su red en Bridged.
 
@@ -30,27 +28,23 @@ Nuestro Ubuntu tendra conexion con dos redes, la cual sera Bridged y un adaptado
 
 ![](.gitbook/assets/image%20%2828%29.png)
 
-Nuestra Metasploitable tendra solo conexion al adaptador Only-Host \#4 
+Nuestra Metasploitable tendra solo conexion al adaptador Only-Host \#4
 
 ![](.gitbook/assets/image%20%2814%29.png)
 
 De esta manera tendremos que: Nuestra Kali comparte el mismo segmento de red que nuestra ubuntu, y nuestra ubuntu tiene acceso a la misma red que nuestra metasploitable. Pero nuesra Kali no ve la Metasploitable.
 
-De igual manera es importante no mantener confunsion en esta parte ya que el lab puede salir mal \(creanme puede salir todo mal..\). 
+De igual manera es importante no mantener confunsion en esta parte ya que el lab puede salir mal \(creanme puede salir todo mal..\).
 
 ![](.gitbook/assets/image%20%2826%29.png)
 
-#### Configuraciones...parte 2
+### Configuraciones...parte 2
 
-Agregar APACHE 
+Agregar APACHE
 
-#### 
+## Port Forwarding
 
-#### 
-
-### Port Forwarding
-
-#### Utilizando Metasploit
+### Utilizando Metasploit
 
 Consiste en establecer una conexión segura entre un usuario remoto y las máquinas locales.
 
@@ -62,7 +56,7 @@ Para esto iniciamos el metasploit
 sudo msfconsole
 ```
 
-ingresamos el siguiente parametro 
+ingresamos el siguiente parametro
 
 ```text
 use auxiliary/scanner/ssh/ssh_login 
@@ -102,9 +96,9 @@ Seguido de esto realizamos la prueba abriendo nuestro navegador en la kali con l
 
 Y como asegura el Apache2.. It works!
 
-#### Port Forwarding o redireccionamiento de puertos con SSH local
+### Port Forwarding o redireccionamiento de puertos con SSH local
 
-Se utiliza el protocolo SSH para reenviar los puertos de la aplicación desde una máquina cliente a la máquina atacante. El cliente SSH escucha las conexiones en un puerto que ha sido configurado y hace un túnel a un SSH cuando se recibe una conexión hacia nuestra Kali o maquina atacante. 
+Se utiliza el protocolo SSH para reenviar los puertos de la aplicación desde una máquina cliente a la máquina atacante. El cliente SSH escucha las conexiones en un puerto que ha sido configurado y hace un túnel a un SSH cuando se recibe una conexión hacia nuestra Kali o maquina atacante.
 
 Para esto claramente conocemos previamente el user y pass de la maquina victima
 
@@ -129,13 +123,13 @@ Como se menciono anteriormente nuestro ssh paso al background y revisamos en nue
 
 De esta manera conseguimos realizar un portForwarding entre nuestras maquinas.
 
-### Tunneling 
+## Tunneling
 
 Este es el proceso que se utiliza para acceder a los recursos de una red desde una red publica. Quiere decir que a tavez de esta tecnica podremos llegar a una subnet dentro de una red a la que desde un principio no tenemos acceso.
 
 Para este lab como se meciono anteriormente utilizaremos el Metasploitable como victima...
 
-#### Sshuttle
+### Sshuttle
 
 Esta herramienta nos permite enrutar redes ssh como si fuese conexiones de vpn.
 
@@ -165,10 +159,10 @@ En este caso como ya tengo instalado el Sshuttle me saldra el siguiente mensaje
 
 ![](.gitbook/assets/image%20%2823%29.png)
 
-Una vez ya instalado corremos la setencia 
+Una vez ya instalado corremos la setencia
 
 ```text
-sshuttle -vr juss@192.168.1.139 172.16.250.129/16  
+sshuttle -vr juss@192.168.1.139 172.16.250.129/16
 ```
 
 La cual detallamos de la sigueintee manera:
@@ -184,9 +178,7 @@ Una vez ejecutado la sentencia podemos observar en nuestro explorador de la Kali
 
 De esta manera con la herramienta Sshuttle podemos ver desde nuestra kali el segmento de red que mantiene la Metasploitable.
 
-
-
-#### Chisel
+### Chisel
 
 Chisel es un túnel TCP / UDP rápido, transportado a través de HTTP, protegido a través de SSH. Un ejecutable que incluye tanto al cliente como al servidor. Escrito en Go \(golang\). Chisel es principalmente útil para atravesar firewalls, aunque también puede usarse para proporcionar un punto final seguro en su red.
 
@@ -203,7 +195,7 @@ En mi caso tanto el chisel como golang ya se encuentran instalados en mi equipo.
 
 Una vez ya descargado nuestro git de chisel e instalado golang procedemos con ejecutar el comando build para crear un binario de la fuente o codigo del chisel.
 
-Una vez ya ejecutado corremos el comando llamando a nuestro binario de chisel como servidor escucha por el puerto  8000
+Una vez ya ejecutado corremos el comando llamando a nuestro binario de chisel como servidor escucha por el puerto 8000
 
 ```text
 go build -ldflags="-s -w"
@@ -231,7 +223,7 @@ Para esto como ya tenemos acceso al equipo Ubuntu, podemos subir un binario del 
 https://github.com/andrew-d/static-binaries/blob/master/binaries/linux/x86_64/nmap
 ```
 
- Una vez ya descargado generamos nuestro pequeño servidor en python para enviar archivos a nuestra maquina victima \(Ubuntu\) 
+Una vez ya descargado generamos nuestro pequeño servidor en python para enviar archivos a nuestra maquina victima \(Ubuntu\)
 
 ```text
 python -m SimpleHTTPServer 80
@@ -273,15 +265,13 @@ Al ejecutar este comando tendremos la siguiente salida
 
 ![](.gitbook/assets/image%20%281%29.png)
 
-Y en nuestra kali veremos que obtuvimos la sesion 1 
+Y en nuestra kali veremos que obtuvimos la sesion 1
 
 ![](.gitbook/assets/image%20%2827%29.png)
 
 Revisamos nuestro explorador con la direcciòn del localhost:5000
 
 ![](.gitbook/assets/image%20%2819%29.png)
-
-
 
 Perfecto... tenemos conexiòn.. pero que pasa si en vez de utilizar el puerto 80 con el chisel en la Ubuntu utilizamos otro puerto?...
 
@@ -315,13 +305,11 @@ ssh msfadmin@127.0.0.1 -p 7000
 
 ![](.gitbook/assets/image%20%288%29.png)
 
-Y como dice el Apache... It Works! 
-
-
+Y como dice el Apache... It Works!
 
 **Dynamic SSH Tunneling o Tunel SSH dinamico**
 
-El túnel SSH dinámico proporciona una conexión con el rango de puertos haciendo que SSH funcione como un proxy SOCKS Kali Linux. ****El proxy SOCKS funciona como un tunel de ssh, el cual permite al atacante ver el trafico de internet que es enviado a la maquina victima. La tunelización dinámica puede recibir conexiones desde numerosos puertos. En nuestra maquina Kali corremos el siguiente comando
+El túnel SSH dinámico proporciona una conexión con el rango de puertos haciendo que SSH funcione como un proxy SOCKS Kali Linux. _\*\*_El proxy SOCKS funciona como un tunel de ssh, el cual permite al atacante ver el trafico de internet que es enviado a la maquina victima. La tunelización dinámica puede recibir conexiones desde numerosos puertos. En nuestra maquina Kali corremos el siguiente comando
 
 En nuestra Kali corremos el siguiente comando
 
@@ -346,15 +334,11 @@ Seguido realizamos la configuracion en nuestro explorador
 
 ![](.gitbook/assets/image%20%289%29.png)
 
-
-
 Le damos click en OK y cargamos la paguina con la direcciòn del metasploitable
 
 ![](.gitbook/assets/image%20%2820%29.png)
 
 De esta manera podemos ver la metasploitable2 desde nuestro kali
-
-
 
 **Local SSH Tunneling o Tunel SSH local**
 
@@ -384,9 +368,5 @@ ssh msfadmin@127.0.0.1 -p 7000
 
 Y como dice el Apache ...It Works!
 
-Prueba Prueba
-
-
-
-
+Prueba Prueba juss quiere matar a elzer
 
