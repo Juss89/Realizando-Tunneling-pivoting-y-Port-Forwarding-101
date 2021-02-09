@@ -48,7 +48,9 @@ Agregar APACHE
 
 #### 
 
-#### Port Forwarding
+### Port Forwarding
+
+#### Utilizando Metasploit
 
 Consiste en establecer una conexión segura entre un usuario remoto y las máquinas locales.
 
@@ -100,11 +102,32 @@ Seguido de esto realizamos la prueba abriendo nuestro navegador en la kali con l
 
 Y como asegura el Apache2.. It works!
 
+#### Port Forwarding o redireccionamiento de puertos con SSH local
 
+Se utiliza el protocolo SSH para reenviar los puertos de la aplicación desde una máquina cliente a la máquina atacante. El cliente SSH escucha las conexiones en un puerto que ha sido configurado y hace un túnel a un SSH cuando se recibe una conexión hacia nuestra Kali o maquina atacante. 
 
+Para esto claramente conocemos previamente el user y pass de la maquina victima
 
+```text
+ssh -L 8081:localhost:8080 -N -f -l juss 192.168.1.139
+```
 
+Este comando se traduce de la siguiente manera:
 
+* Tenemos el flag -L 8081:localhost  que representa el puerto escucha de nuestra maquina Kali
+* :8080 que representa el puerto de la maquina que queremos escuchar \(Ubuntu\)
+* -N para no ejecutar comandos remotos, el cual es especial para hacer forwarding de puertos.
+* -f  para enviar nuestro comando de ssh al background, de esta manera se ejecutara los otros flags mientras tengamos nuestra conexiòn abierta
+* -l para especificar el usuario de la maquina remota \(Ubuntu\)
+* y seguido la ip de nuestra Ubuntu
 
+![](.gitbook/assets/image%20%2811%29.png)
 
+Como se menciono anteriormente nuestro ssh paso al background y revisamos en nuestro explorador la ruta localhost:8081
+
+![](.gitbook/assets/image%20%2810%29.png)
+
+De esta manera conseguimos realizar un portForwarding entre nuestras maquinas.
+
+### Tunneling 
 
