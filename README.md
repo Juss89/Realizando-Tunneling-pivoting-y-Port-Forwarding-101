@@ -473,7 +473,7 @@ De esta manera podemos ver la metasploitable2 desde nuestro kali
 
 **Local SSH Tunneling o Tunel SSH local**
 
-Esta tecnica permite realizar la conexiòn hacia nuestro Metasploitable2, desde el Ubuntu utilizando nuestra Kali con el flag -L
+Esta técnica permite realizar la conexión hacia nuestro Metasploitable2, desde el Ubuntu utilizando nuestra Kali con el flag -L
 
 ```text
 ssh -L 7000:172.16.250.133:22 juss@192.168.1.139
@@ -487,7 +487,7 @@ Esta sentencia se detalla de la siguiente manera:
 
 ![](.gitbook/assets/image%20%2815%29.png)
 
-Una vez tenemos acceso estamos enviando el trafico de la Metasploitable2 a nuestro puerto 7000.
+Una vez tenemos acceso estamos enviando el tráfico de la Metasploitable2 a nuestro puerto 7000.
 
 Ingresamos con el ssh al puerto 7000 y colocamos la contraseña
 
