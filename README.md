@@ -4,9 +4,11 @@ description: Realizando Tunneling (pivoting) y Port Forwarding 101
 
 # Realizando Tunneling \(pivoting\) y Port Forwarding 101
 
-Por lo general cuando hablamos de pivoting las personas en el mundo de la informatica conocen el termino y aseguran saber lo referente al tema. Sin embargo la realidad es distinto cuando pasas a la practica \(mi caso\) en el que muchos caemos. Sin embargo, me dedique el fin de semana a realizar el lab sobre pivoting para entender su proceso y diversas tecnicas que permitan realizar el pivoting, tunneling o hasta un simple Port Forwarding, asi como aseguro en mi post de twiiter [https://twitter.com/jeg1200/status/1358634667054944258?s=20](https://twitter.com/jeg1200/status/1358634667054944258?s=20)
+Por lo general cuando hablamos de pivoting las personas en el mundo de la informatica conocen el termino y aseguran saber lo referente al tema. Sin embargo la realidad es distinto cuando pasas a la practica \(mi caso\) en el que muchos caemos. Sin embargo, me dedique el fin de semana a realizar el lab sobre pivoting para entender su proceso y diversas tecnicas que permitan realizar el pivoting, tunneling o hasta un simple Port Forwarding, asi como aseguro en mi post de twiiter [https://twitter.com/jeg1200/status/1358634667054944258?s=20](https://twitter.com/jeg1200/status/1358634667054944258?s=20) 
 
-insertar parte donde indica que para realizar el lab en otras plataformas requieren pagar para realizar este tipo de escenario
+El motivo de este laboratio surgio por que en la actualidad para poder realizar este tipo de practicas debes afiliarte a algunas de las plataformas que encuentras en la red y muchas de estas plataformas \(no todas\) debes realizar un pago para poder ejercer este tipo de practicas. 
+
+En respuesta a esta situacion decidi realizar el lab, sin necesidad de afiliarme o pagar por practicar  y aprender las diversas tecnicas de pivoting, Port Forwarding o Tunelling. 
 
 ## Para este lab. vamos a necesitar 3 maquinas virtuales:
 
@@ -46,7 +48,12 @@ Agregar APACHE
 
 ## Port Forwarding
 
-### Para realizar el Port Forwarding utilizando la herramientas de metasploit y por medio de EDITARRR!!!
+### Para este lab decimidos utilizar dos tecnicas:
+
+* Metasploit
+* Port Forwarding o redireccionamiento de puertos con SSH local
+
+El motivo de usar estas dos tecnicas es para aprender las maneras de realizar el Port Forwarding... **"si en tal situacion nos encontramos con que no podemos o no queremos ejecutar el metasploit"**
 
 ### Utilizando Metasploit
 
@@ -77,16 +84,46 @@ Una vez ingresado estos parametros tendremos las siguientes salidas
 
 ![](.gitbook/assets/image%20%2822%29.png)
 
-Seguido corremos nuestro netstat y podremos observar que:
+Tendremos de salida el meterpreter, el cual permite obtener una gran cantidad de información sobre un objetivo comprometido. 
 
-1. claramente estamos dentro de la ubuntu EDITAR!!!!!
-2. podemos que esta el apache corriendo sobre el puerto 8080
+Y como sabemos que realmente estamos dentro de la maquina victima \(Ubuntu\)???
+
+Pues.. para esto corremos el siguiente comando
+
+```text
+getuid
+```
+
+![](.gitbook/assets/image%20%2837%29.png)
+
+Este comando permite consultar la cuenta que se esta ejecutando para el proceso del meterpreter.
+
+Una vez que ya validamos que en efecto somos el usuario de la maquina Ubuntu necesitamos enumerar las conexiones activas que mantiene nuestro Ubuntu.
+
+Para esto ejecutamos el siguiente comando
+
+```text
+netstat -antp
+```
+
+Este comando se traduce de la siguiente manera:
+
+* -a visualiza todas las conexiones y puertos TCP y UDP, incluyendo las que están "en escucha" \(listening\).
+* n se muestran los puertos con su identificación en forma numérica y no de texto.
+* t es para especificar que sea tcp
+* p es para desplegar el PID
 
 ![](.gitbook/assets/image%20%282%29.png)
 
-EDITAR!! \(COLOCAR DESCRIPCION DEL NETSTAT Y COLOCAR CUANDO NO PUEDES INGRESAR POR QUE NO LO ALCANSAS
+Una vez ya ejecutado nuestro **netstat** podemos visualizar que para la linea 4 existe el servicio que previamente se habia configurado \(Apache2\) en la 127.0.0.1:8080
 
-Conociendo ya esto info utilizaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirecciòn de puertos.
+Aun asi estando ya dentro de nuestra maquina Ubuntu desde nuestro meterpreter validamos si el podemos ver la conexion en nuestro localhost sin haber realizado nuestro **Port Forwarding**
+
+![](.gitbook/assets/image%20%2838%29.png)
+
+Y en efecto... no podemos todavia desplegar la informaciòn desde nuestro localhost
+
+En respuesta a el intento anterior utilizaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirecciòn de puertos desde nuestro meterpreter.
 
 ```text
 portfwd add -l 8081 -p 8080 -r 127.0.0.1
