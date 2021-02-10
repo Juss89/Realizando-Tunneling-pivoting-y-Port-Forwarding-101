@@ -6,16 +6,16 @@ description: Realizando Tunneling (pivoting) y Port Forwarding 101
 
 ## **TL;DR**
 
-Por lo general cuando hablamos de pivoting las personas del campo de la informatica conocen el termino y aseguran saber lo referente al tema. Sin embargo la realidad es distinto cuando pasas a la practica. Sin embargo, me dedique el fin de semana a levantar un laboratorio para practicar pivoting y Port Forwarding, el objetivo de este laboratorio era entender de manera práctica las tecnicas mencionadas.
+Por lo general cuando hablamos de pivoting las personas del campo de la informática conocen el termino y aseguran saber lo referente al tema. Sin embargo, la realidad es distinto cuando pasas a la práctica. Sin embargo, me dedique el fin de semana a levantar un laboratorio para practicar pivoting y Port Forwarding, el objetivo de este laboratorio era entender de manera práctica las técnicas mencionadas.
 
-El motivo de este laboratio surgio por que en la actualidad para poder realizar este tipo de practicas debes afiliarte a algunas de las plataformas que encuentras en la red y muchas de estas plataformas \(no todas\) debes realizar un pago para poder ejercer este tipo de practicas. 
+El motivo de este laboratorio surgió por que en la actualidad para poder realizar este tipo de prácticas debes afiliarte a algunas de las plataformas que encuentras en la red y muchas de estas plataformas \(no todas\) debes realizar un pago para poder ejercer este tipo de prácticas. 
 
-En respuesta a esta situacion decidi realizar el lab, sin necesidad de afiliarme o pagar por practicar  y aprender las diversas tecnicas de pivoting, Port Forwarding o Tunelling. 
+En respuesta a esta situación decidí realizar el lab, sin necesidad de afiliarme o pagar por practicar  y aprender las diversas técnicas de pivoting, Port Forwarding o Tunelling. 
 
 ## Para este laboratorio, vamos a necesitar 3 maquinas virtuales:
 
 1. Kali
-2. Ubuntu puede ser la version 18 o la ultima version
+2. Ubuntu puede ser la versión 18 o la última versión
 3. Metasploitable 2
 
 Para virtualizar estas máquinas utilizaremos VMware y VirtualBox.
@@ -26,7 +26,7 @@ La Ubuntu y Metasploitable 2 las desplegaremos VirtualBox.
 
 ### Configuraciones del Ambiente de Pruebas - Red
 
-Para nuestra Kali vamos a tener la configuracion de su red en modo _**Bridged**_.
+Para nuestra Kali vamos a tener la configuración de su red en modo _**Bridged**_.
 
 ![](.gitbook/assets/image%20%286%29.png)
 
@@ -186,7 +186,7 @@ Una vez ya ejecutado nuestro **netstat** podemos visualizar que para la linea 4 
 
 Validamos si logramos alcanzar el servicio que esta ejecutando en el puerto 8080 desde nuestra Kali.
 
-![](.gitbook/assets/image%20%2842%29.png)
+![](.gitbook/assets/image%20%2848%29.png)
 
 Y en efecto... no podemos alcanzar el servicio remotamente ya que se esta ejecutando sobre **localhost**.
 
