@@ -434,7 +434,7 @@ Ingresamos con el ssh al puerto 7000 y colocamos la contraseña
 ssh msfadmin@127.0.0.1 -p 7000
 ```
 
-![](.gitbook/assets/image%20%2812%29.png)
+![](.gitbook/assets/image%20%2843%29.png)
 
 Y como dice el Apache ...It Works!
 
