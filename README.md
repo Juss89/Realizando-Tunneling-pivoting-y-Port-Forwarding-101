@@ -347,7 +347,7 @@ asignamos otro puerto en nuestro servidor escucha en la Kali
 
 ![](.gitbook/assets/image%20%285%29.png)
 
-Y en nuestro Ubuntu corremos otra sentencia del chisel pero cambiando los puertos. 8001 para nuestra kali reciba la nueva conexiòn, puerto 7000 para poder verlo en nuestra localhost de kali y el puerto 22 para el metasploitable que nos permite conectarnos por ssh
+Y en nuestro Ubuntu corremos otra sentencia del chisel pero cambiando los puertos. 8001 para nuestra kali reciba la nueva conexiòn, puerto 7000 para poder verlo en nuestra localhost de kali y el puerto 22 para el metasploitable que nos permite conectarnos por ssh. 
 
 ```text
 ./chisel client 192.168.1.144:8001 R:7000:172.16.250.133:22
