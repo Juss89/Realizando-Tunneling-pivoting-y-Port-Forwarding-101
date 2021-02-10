@@ -124,11 +124,11 @@ El motivo de usar estas dos técnicas es para aprender las maneras de realizar e
 
 ### Utilizando Metasploit
 
-Para esta técnica necesitaremos tener credenciales validas sobre la maquina que queremos vulnerar.
+Para esta técnica necesitaremos tener credenciales validas sobre la máquina que queremos vulnerar.
 
-Consiste en establecer una conexión segura entre un usuario de máquina victima y nuestra maquina.
+Consiste en establecer una conexión segura entre un usuario de máquina víctima y nuestra máquina.
 
-En el siguiente ejemplo demostrare como alcanzar el servicio de Apache que se encuentra desplegado sobre localhost \(no se puede acceder al servicio desde otra máquina\). Selecionaremos un puerto en nuestra máquina para redirigir el tráfico. Para esta técnica deberemos tener una sesion con Meterpreter.
+En el siguiente ejemplo demostrare como alcanzar el servicio de Apache que se encuentra desplegado sobre localhost \(no se puede acceder al servicio desde otra máquina\). Seleccionaremos un puerto en nuestra máquina para redirigir el tráfico. Para esta técnica deberemos tener una sesión con Meterpreter.
 
 Para esto iniciamos el metasploit
 
@@ -144,9 +144,9 @@ set rhosts <IP ADDRESS>
 set username <USERNAME>
 set password <PASSWORD>
 exploit 
-sessions -u 1 //para escalar nuestra sesion a meterpreter
+sessions -u 1 //para escalar nuestra sesión a meterpreter
 sessions 2 // para interactuar con la nueva sesión que fue creada
-netstat -antp //para listar los servicios activo en la máquina víctima
+netstat -antp //para listar los servicios activos en la máquina víctima
 ```
 
 Una vez ingresado estos comandos tendremos las siguientes salidas
@@ -155,7 +155,7 @@ Una vez ingresado estos comandos tendremos las siguientes salidas
 
 Y,  ¿Como sabemos que realmente estamos dentro de la maquina victima \(Ubuntu\)?
 
-Pues.. para esto corremos el siguiente comando
+Pues... para esto corremos el siguiente comando
 
 ```text
 getuid
@@ -163,7 +163,7 @@ getuid
 
 ![](.gitbook/assets/image%20%2841%29.png)
 
-Este comando permite consultar el usuario sobre el cual se esta ejecutando el proceso del meterpreter.
+Este comando permite consultar el usuario sobre el cual se está ejecutando el proceso del meterpreter.
 
 Una vez que ya validamos que en efecto somos el usuario de la maquina Ubuntu necesitamos enumerar las conexiones activas que mantiene nuestro Ubuntu.
 
@@ -182,25 +182,25 @@ Este comando se traduce de la siguiente manera:
 
 ![](.gitbook/assets/image%20%282%29.png)
 
-Una vez ya ejecutado nuestro **netstat** podemos visualizar que para la linea 4 existe el servicio que previamente se habia configurado \(Apache2\) y se esta ejecutando sobre 127.0.0.1:8080.
+Una vez ya ejecutado nuestro **netstat** podemos visualizar que para la línea 4 existe el servicio que previamente se había configurado \(Apache2\) y se está ejecutando sobre 127.0.0.1:8080.
 
-Validamos si logramos alcanzar el servicio que esta ejecutando en el puerto 8080 desde nuestra Kali.
+Validamos si logramos alcanzar el servicio que está ejecutando en el puerto 8080 desde nuestra Kali.
 
 ![](.gitbook/assets/image%20%2848%29.png)
 
-Y en efecto... no podemos alcanzar el servicio remotamente ya que se esta ejecutando sobre **localhost**.
+Y en efecto... no podemos alcanzar el servicio remotamente ya que se está ejecutando sobre **localhost**.
 
-Dentro de nuestra sesión meterpreter, lanzaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirecciòn de puertos.
+Dentro de nuestra sesión meterpreter, lanzaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirección de puertos.
 
 ```text
 portfwd add -l 8081 -p 8080 -r 127.0.0.1
 ```
 
-El comando portfwd, es un comando que funciona para realizar redirecciones de puertos. De esta manera podemos enviar todo el trafico de nuestro puerto 8080 \(Ubuntu\) a nuestro puerto 8081 \(kali\). El comando add para añadir. La flag **-l** indica cual sera nuestro puerto local donde redirigiremos el  servicio , la flag **-p** es el puerto remoto al cual queremos conectarnos y el flag **-r** es el ip de la maquina a donde redigiremos el tráfico \(nuestra máquina\).
+El comando portfwd, es un comando que funciona para realizar redirecciones de puertos. De esta manera podemos enviar todo el tráfico de nuestro puerto 8080 \(Ubuntu\) a nuestro puerto 8081 \(kali\). El comando add para añadir. La flag **-l** indica cual será nuestro puerto local donde redirigiremos el  servicio , la flag **-p** es el puerto remoto al cual queremos conectarnos y el flag **-r** es el ip de la maquina a donde redirigimos el tráfico \(nuestra máquina\).
 
 ![](.gitbook/assets/image%20%2818%29.png)
 
-Seguido de esto realizamos la prueba abriendo nuestro navegador en la kali con la direccciòn del localhost:8081
+Seguido de esto realizamos la prueba abriendo nuestro navegador en la kali con la dirección del localhost:8081
 
 ![](.gitbook/assets/image%20%2821%29.png)
 
@@ -210,7 +210,7 @@ Y como asegura el Apache2.. It works!.
 
 Se utiliza el protocolo SSH para reenviar los puertos de la aplicación desde una máquina cliente a la máquina atacante. El cliente SSH escucha las conexiones en un puerto que ha sido configurado y hace un túnel a un SSH cuando se recibe una conexión hacia nuestra Kali o maquina atacante.
 
-Para esto debemos conocer credenciales de la maquina victima.
+Para esto debemos conocer credenciales de la maquina víctima.
 
 ```text
 ssh -L 8081:localhost:8080 -N -f -l juss 192.168.1.139
@@ -219,9 +219,9 @@ ssh -L 8081:localhost:8080 -N -f -l juss 192.168.1.139
 Este comando se traduce de la siguiente manera:
 
 * Tenemos el flag -L 8081:localhost  que representa el puerto escucha de nuestra maquina Kali
-* :8080 que representa el puerto de la maquina que queremos escuchar \(Ubuntu\)
+* :8080 que representa el puerto de la máquina que queremos escuchar \(Ubuntu\)
 * -N para no ejecutar comandos remotos, el cual es especial para hacer forwarding de puertos.
-* -f  para enviar nuestro comando de ssh al background, de esta manera se ejecutara los otros flags mientras tengamos nuestra conexiòn abierta
+* -f  para enviar nuestro comando de ssh al background, de esta manera se ejecutará los otros flags mientras tengamos nuestra conexión abierta
 * -l para especificar el usuario de la maquina remota \(Ubuntu\)
 * y seguido la ip de nuestra Ubuntu
 
@@ -235,15 +235,15 @@ De esta manera conseguimos realizar un Port Forwarding entre nuestras maquinas.
 
 ## Pivoting
 
-Este es el proceso que se utiliza para acceder los recursos de una red a la cual no tenemos acceso, desde una red que previamente que ya hayamos vulnerado y que si tenga visibilidad sobre esta red. Quiere decir que a travez de esta tecnica podremos llegar a un redes a traves de otras redes.
+Este es el proceso que se utiliza para acceder los recursos de una red a la cual no tenemos acceso, desde una red que previamente que ya hayamos vulnerado y que si tenga visibilidad sobre esta red. Quiere decir que a través de esta técnica podremos llegar a unas redes a través de otras redes.
 
-Para este laboratorio utilizaremos Ubuntu y Metasploitable como victimas.
+Para este laboratorio utilizaremos Ubuntu y Metasploitable como víctimas.
 
 ### Sshuttle
 
 Esta herramienta nos permite enrutar redes SSH como si fuese conexiones de vpn.
 
-Con el Sshuttle realizaremos una conexiòn desde nuestra kali, hacia nuestro Ubuntu, y desde la ubuntu alcanzar los recursos o servicios de la Metasploitable.
+Con el Sshuttle realizaremos una conexión desde nuestra kali, hacia nuestro Ubuntu, y desde la ubuntu alcanzar los recursos o servicios de la Metasploitable.
 
 Para este laboratorio necesitamos tener nuestras IPs a mano.
 
@@ -259,19 +259,19 @@ Metasploitable 2
 
 ![](.gitbook/assets/image%20%2813%29.png)
 
-Instalacion de  Sshuttle.
+Instalación de  Sshuttle.
 
 ```text
 apt install sshuttle
 ```
 
-En este caso como ya tengo instalado el Sshuttle me saldra el siguiente mensaje:
+En este caso como ya tengo instalado el Sshuttle me saldrá el siguiente mensaje:
 
 ![](.gitbook/assets/image%20%2823%29.png)
 
-Seguido a la instalaciòn decidimos corroborar que en efecto no tenemos acceso a ver la Metasploitable2.
+Seguido a la instalación decidimos corroborar que en efecto no tenemos acceso a ver la Metasploitable2.
 
-NOTA: si les da algun tipo de error al realizar la conexcion con sshuttle, reinstalar sshuttle.
+NOTA: si les da algún tipo de error al realizar la conexión con sshuttle, reinstalar sshuttle.
 
 ![](.gitbook/assets/image%20%2838%29.png)
 
@@ -287,7 +287,7 @@ La cual detallamos de la siguiente manera:
 
 * -v  este flag indica con la \(-v\) de verbose, de esta manera obtendremos una salida a la sentencia para poder ver lo que ocurre en el momento
 * -r permite ingresar un usuario.
-* seguido el usuario junto con la direcciòn ip 192.168.1.139 \(ubuntu\) y la direcciòn del segmento o cidr 172.16.250.129/16 \(Metasploitable\).
+* seguido el usuario junto con la dirección ip 192.168.1.139 \(ubuntu\) y la dirección del segmento o cidr 172.16.250.129/16 \(Metasploitable\).
 
 ![](.gitbook/assets/image%20%2816%29.png)
 
@@ -301,7 +301,7 @@ De esta manera con la herramienta Sshuttle podemos ver desde nuestra kali el seg
 
 Chisel es un túnel TCP / UDP rápido, transportado a través de HTTP, protegido a través de SSH. Un ejecutable que incluye tanto al cliente como al servidor. Escrito en Go \(golang\). Chisel es principalmente útil para atravesar firewalls, aunque también puede usarse para proporcionar un punto final seguro en su red.
 
-Para instalarlo debemos realizar primero la descarga desde el github y seguido la instalacion del lenguaje golang
+Para instalarlo debemos realizar primero la descarga desde el github y seguido la instalación del lenguaje golang
 
 ```text
 git clone https://github.com/jpillora/chisel.git
@@ -321,7 +321,7 @@ go build -ldflags="-s -w"
 ./chisel server -p 8000 --reverse
 ```
 
-El cual nos genera la sigueinte salida
+El cual nos genera la siguiente salida
 
 ![](.gitbook/assets/image%20%2811%29.png)
 
@@ -329,9 +329,9 @@ Una vez ya ejecutado nuestro binario de chisel asignando el trafico al puerto 80
 
 ![](.gitbook/assets/image%20%2840%29.png)
 
-Pues no... no tenemos acceso. En este punto, imaginamos que te preguntas... ¿Porque localhost? y ¿ Porque ese puerto? por que no es el que señalo arriba el 8000? y si todas esas dudas la respondemos siguiendo este pequeño lab.
+Pues no... no tenemos acceso. En este punto, imaginamos que te preguntas... ¿Porque localhost? y ¿Porque ese puerto? por qué no es el que señalo arriba el 8000? y si todas esas dudas la respondemos siguiendo este pequeño lab.
 
-Seguido a esto realizamos la instalaciòn del chisel en nuestro Ubuntu
+Seguido a esto realizamos la instalación del chisel en nuestro Ubuntu
 
 ```text
 git clone https://github.com/jpillora/chisel.git
@@ -342,7 +342,7 @@ sudo go build -ldflags="-s -w"
 
 Supongamos que estamos ya dentro del equipo y realmente no sabemos que puertos tiene abierto el equipo del Metasploitable.
 
-Para esto como ya tenemos acceso al equipo Ubuntu, podemos subir un binario del nmap y realizar el escaneo de la red. Para esto primero podemos descargar este binario de github que me fue muy util.
+Para esto como ya tenemos acceso al equipo Ubuntu, podemos subir un binario del nmap y realizar el escaneo de la red. Para esto primero podemos descargar este binario de github que me fue muy útil.
 
 ```text
 https://github.com/andrew-d/static-binaries/blob/master/binaries/linux/x86_64/nmap
@@ -360,7 +360,7 @@ Y desde nuestra Ubuntu podemos descargarlo en la carpeta de temporales \(tmp\)
 
 ![](.gitbook/assets/image%20%2835%29.png)
 
-Una vez ya descargado nuestro binario debemos darle permiso de ejecucion con el comando chmod indicando las caracteristicas de ejecucion \(+x\)
+Una vez ya descargado nuestro binario debemos darle permiso de ejecución con el comando chmod indicando las característicasde ejecución \(+x\)
 
 ```text
 chmod +x nmap
@@ -380,25 +380,25 @@ Al tener listados los puertos de la Metasploitable 2 podemos proceder con nuestr
 ./chisel client 192.168.1.144:8000 R:5000:172.16.250.133:80
 ```
 
-Lo cual se detalla a continuacion:
+Lo cual se detalla a continuación:
 
-* cliente 192.168.1.144:8000 representa la maquina cliente que va a recibir al conexiòn, en este caso nuestra Kali con el puerto 8000
-* R:5000 sera el puerto que veremos la conexiòn de nuestro kali
+* cliente 192.168.1.144:8000 representa la maquina cliente que va a recibir a la conexión, en este caso nuestra Kali con el puerto 8000
+* R:5000 será el puerto que veremos la conexión de nuestro kali
 * :172.16.250.133:80 representa la ip de nuestro equipo Metasploitable con el puerto 80
 
 Al ejecutar este comando tendremos la siguiente salida.
 
 ![](.gitbook/assets/image%20%281%29.png)
 
-Y en nuestra kali veremos que obtuvimos la sesion 1.
+Y en nuestra kali veremos que obtuvimos la sesión 1.
 
 ![](.gitbook/assets/image%20%2827%29.png)
 
-Revisamos nuestro explorador con la direcciòn del **localhost:5000**.
+Revisamos nuestro explorador con la dirección del **localhost:5000**.
 
 ![](.gitbook/assets/image%20%2819%29.png)
 
-Perfecto... tenemos conexiòn.. pero que pasa si en vez de utilizar el puerto 80 con el chisel en la Ubuntu utilizamos otro puerto?...
+Perfecto... tenemos conexión. Pero qué pasa si en vez de utilizar el puerto 80 con el chisel en la Ubuntu utilizamos otro puerto?...
 
 asignamos otro puerto en nuestro servidor escucha en la Kali
 
@@ -408,7 +408,7 @@ asignamos otro puerto en nuestro servidor escucha en la Kali
 
 ![](.gitbook/assets/image%20%285%29.png)
 
-Y en nuestro Ubuntu corremos otra sentencia del chisel pero cambiando los puertos. 8001 para nuestra kali reciba la nueva conexiòn, puerto 7000 para poder verlo en nuestra localhost de kali y el puerto 22 para el metasploitable que nos permite conectarnos por ssh. 
+Y en nuestro Ubuntu corremos otra sentencia del chisel pero cambiando los puertos. 8001 para nuestra kali reciba la nueva conexión, puerto 7000 para poder verlo en nuestra localhost de kali y el puerto 22 para el metasploitable que nos permite conectarnos por ssh. 
 
 ```text
 ./chisel client 192.168.1.144:8001 R:7000:172.16.250.133:22
@@ -418,7 +418,7 @@ Y en nuestro Ubuntu corremos otra sentencia del chisel pero cambiando los puerto
 
 Ahora revisamos nuestra kali....
 
-Tenemos que se realizo una conexiòn en chisel por el puerto 7000
+Tenemos que se realizó una conexión en chisel por el puerto 7000
 
 ![](.gitbook/assets/image%20%2824%29.png)
 
@@ -434,7 +434,7 @@ Y como dice el Apache... It Works!
 
 **Dynamic SSH Tunneling o Tunel SSH dinamico**
 
-El túnel SSH dinámico proporciona una conexión con el rango de puertos haciendo que SSH funcione como un proxy SOCKS Kali Linux. _\*\*_El proxy SOCKS funciona como un tunel de ssh, el cual permite al atacante ver el trafico de internet que es enviado a la maquina victima. La tunelización dinámica puede recibir conexiones desde numerosos puertos. En nuestra maquina Kali corremos el siguiente comando
+El túnel SSH dinámico proporciona una conexión con el rango de puertos haciendo que SSH funcione como un proxy SOCKS Kali Linux. El proxy SOCKS funciona como un túnel de ssh, el cual permite al atacante ver el tráfico de internet que es enviado a la maquina víctima. La tunelización dinámica puede recibir conexiones desde numerosos puertos. En nuestra maquina Kali corremos el siguiente comando
 
 En nuestra Kali corremos el siguiente comando
 
@@ -442,30 +442,30 @@ En nuestra Kali corremos el siguiente comando
 ssh -D 7000 juss@192.168.1.139
 ```
 
-El cual detallamos a continuaciòn:
+El cual detallamos a continuación:
 
-* -D 7000 permite que el soket de nuestor equipo Kali escuche por ese puerto el direcionamiento que proviene de la maquina Ubuntu que nos estamos conectando. Este paremetro funciona tanto para SOCKS4 y SOCKS5
+* -D 7000 permite que el soket de nuestro equipo Kali escuche por ese puerto el direccionamiento que proviene de la maquina Ubuntu que nos estamos conectando. Este parametro funciona tanto para SOCKS4 y SOCKS5
 
 ![](.gitbook/assets/image%20%2831%29.png)
 
-Teniendo la conexiòn remota activa sobre nuestra maquina Ubuntu, decidimos realizar la prueba sobre nuestro explorador para saber si tenemos visibilidad sobre la Metasploitable2
+Teniendo la conexión remota activa sobre nuestra maquina Ubuntu, decidimos realizar la prueba sobre nuestro explorador para saber si tenemos visibilidad sobre la Metasploitable2
 
 ![](.gitbook/assets/image%20%2839%29.png)
 
 Y en efecto, no mantenemos visibilidad.
 
-Seguido a la prueba, realizamos la configuracionde conexiones en nuestro explorador
+Seguido a la prueba, realizamos la configuración de conexiones en nuestro explorador
 
-* Seleccionamos la opcion Manual proxy configuracion
+* Seleccionamos la opción Manual proxy configuración
 * en SOCKS Host colocamos el ip de localhost \(127.0.0.1\)
-* selecionamos en Port el puerto 7000 y que sea en SOCKS v5
-* colocamos en el area de "no proxy for" la direccion del localhost
+* • seleccionamos en Port el puerto 7000 y que sea en SOCKS v5
+* colocamos en el área de "no proxy for" la dirección del localhost
 
 ![](.gitbook/assets/image%20%2829%29.png)
 
 ![](.gitbook/assets/image%20%289%29.png)
 
-Le damos click en OK y cargamos la paguina con la direcciòn del metasploitable
+Le damos click en OK y cargamos la página con la direcciòn del metasploitable
 
 ![](.gitbook/assets/image%20%2820%29.png)
 
