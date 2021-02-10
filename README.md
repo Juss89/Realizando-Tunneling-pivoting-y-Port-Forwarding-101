@@ -94,7 +94,7 @@ Pues.. para esto corremos el siguiente comando
 getuid
 ```
 
-![](.gitbook/assets/image%20%2837%29.png)
+![](.gitbook/assets/image%20%2839%29.png)
 
 Este comando permite consultar la cuenta que se esta ejecutando para el proceso del meterpreter.
 
@@ -119,7 +119,7 @@ Una vez ya ejecutado nuestro **netstat** podemos visualizar que para la linea 4 
 
 Aun asi estando ya dentro de nuestra maquina Ubuntu desde nuestro meterpreter validamos si el podemos ver la conexion en nuestro localhost sin haber realizado nuestro **Port Forwarding**
 
-![](.gitbook/assets/image%20%2838%29.png)
+![](.gitbook/assets/image%20%2840%29.png)
 
 Y en efecto... no podemos todavia desplegar la informaciòn desde nuestro localhost
 
@@ -143,7 +143,15 @@ Y como asegura el Apache2.. It works!
 
 Se utiliza el protocolo SSH para reenviar los puertos de la aplicación desde una máquina cliente a la máquina atacante. El cliente SSH escucha las conexiones en un puerto que ha sido configurado y hace un túnel a un SSH cuando se recibe una conexión hacia nuestra Kali o maquina atacante.
 
-Para esto claramente conocemos previamente el user y pass de la maquina victima
+Para esto debemos conocer previamente el user y pass de la maquina victima.
+
+Sin embargo, para confirmar que no tenemos acceso al Apache2 de nuestro Ubuntu decidimos realizar la consulta directamente en nuestro explorador
+
+![](.gitbook/assets/image%20%2837%29.png)
+
+y pues si.. no tenemos acceso.
+
+Seguido ejecutamos el siguiente comando en nuestra consola de nuestra Kali
 
 ```text
 ssh -L 8081:localhost:8080 -N -f -l juss 192.168.1.139
@@ -202,7 +210,13 @@ En este caso como ya tengo instalado el Sshuttle me saldra el siguiente mensaje
 
 ![](.gitbook/assets/image%20%2823%29.png)
 
-Una vez ya instalado corremos la setencia
+Seguido a la instalaciòn decidimos corroborar que en efecto no tenemos acceso a ver la Metasploitable2
+
+![](.gitbook/assets/image%20%2838%29.png)
+
+y en efecto, no mantenemos visibilidad sobre el equipo Metasploitable2.
+
+En respuesta a esto decidimos ejecutar nuestro binario **Sshuttle**
 
 ```text
 sshuttle -vr juss@192.168.1.139 172.16.250.129/16
