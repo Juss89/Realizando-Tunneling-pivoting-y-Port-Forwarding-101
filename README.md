@@ -12,7 +12,7 @@ El motivo de este laboratio surgio por que en la actualidad para poder realizar 
 
 En respuesta a esta situacion decidi realizar el lab, sin necesidad de afiliarme o pagar por practicar  y aprender las diversas tecnicas de pivoting, Port Forwarding o Tunelling. 
 
-## Para este lab. vamos a necesitar 3 maquinas virtuales:
+## Para este laboratorio, vamos a necesitar 3 maquinas virtuales:
 
 1. Kali
 2. Ubuntu puede ser la version 18 o la ultima version
@@ -22,7 +22,7 @@ Para virtualizar estas máquinas utilizaremos VMware y VirtualBox.
 
 La Kali la desplegaremos con VMware.
 
-La Ubuntu y Metasploitable 2 las desplegaremos VirtualBox
+La Ubuntu y Metasploitable 2 las desplegaremos VirtualBox.
 
 ### Configuraciones del Ambiente de Pruebas - Red
 
@@ -90,7 +90,7 @@ Nos quedaria asi:
 
 ![](.gitbook/assets/image%20%2844%29.png)
 
-Luego reiniciamos el servicios para aplicar cambios.
+Luego reiniciamos el servicio para aplicar cambios.
 
 ```text
 sudo systemctl restart apache2
@@ -111,22 +111,22 @@ systemctl enable ssh
 systemctl start ssh
 ```
 
-NOTA: por defecto no se permite iniciar sesion por ssh con usuario necesitan crearse un usuario nuevo o habilitar el inicio de sesion del usuario root.
+NOTA: por defecto no se permite iniciar sesion por ssh con usuario root, necesitan crearse un usuario nuevo o habilitar el inicio de sesion del usuario root.
 
 ## Port Forwarding
 
-### Para este lab utilizaremos dos tecnicas:
+### Para este prueba utilizaremos dos herramientas:
 
 * Metasploit
-* Port Forwarding o redireccionamiento de puertos con SSH local
+* SSH
 
 El motivo de usar estas dos tecnicas es para aprender las maneras de realizar el Port Forwarding... **"si en tal situacion nos encontramos con que no podemos o no queremos ejecutar el metasploit"**
 
 ### Utilizando Metasploit
 
-Para esta ténica necesitaremos tener credenciales validad sobre la maquina que queremos vulnerar.
+Para esta técnica necesitaremos tener credenciales validas sobre la maquina que queremos vulnerar.
 
-Consiste en establecer una conexión segura entre un usuario remoto y nuestra maquina.
+Consiste en establecer una conexión segura entre un usuario de máquina victima y nuestra maquina.
 
 En el siguiente ejemplo demostrare como alcanzar el servicio de Apache que se encuentra desplegado sobre localhost \(no se puede acceder al servicio desde otra máquina\). Selecionaremos un puerto en nuestra máquina para redirigir el tráfico. Para esta técnica deberemos tener una sesion con Meterpreter.
 
@@ -136,7 +136,7 @@ Para esto iniciamos el metasploit
 msfconsole
 ```
 
-ingresamos el siguiente parametro
+Ejecutamos los siguientes comandos:
 
 ```text
 use auxiliary/scanner/ssh/ssh_login 
@@ -149,11 +149,9 @@ sessions 2 // para interactuar con la nueva sesión que fue creada
 netstat -antp //para listar los servicios activo en la máquina víctima
 ```
 
-Una vez ingresado estos parametros tendremos las siguientes salidas
+Una vez ingresado estos comandos tendremos las siguientes salidas
 
 ![](.gitbook/assets/image%20%2822%29.png)
-
-Tendremos de salida el meterpreter, el cual permite obtener una gran cantidad de información sobre un objetivo comprometido. 
 
 Y,  ¿Como sabemos que realmente estamos dentro de la maquina victima \(Ubuntu\)?
 
@@ -165,7 +163,7 @@ getuid
 
 ![](.gitbook/assets/image%20%2841%29.png)
 
-Este comando permite consultar lel usuario sobre el cual se esta ejecutando el proceso del meterpreter.
+Este comando permite consultar el usuario sobre el cual se esta ejecutando el proceso del meterpreter.
 
 Una vez que ya validamos que en efecto somos el usuario de la maquina Ubuntu necesitamos enumerar las conexiones activas que mantiene nuestro Ubuntu.
 
@@ -179,14 +177,14 @@ Este comando se traduce de la siguiente manera:
 
 * a visualiza todas las conexiones y puertos TCP y UDP, incluyendo las que están "en escucha" \(listening\).
 * n se muestran los puertos con su identificación en forma numérica y no de texto.
-* t es para especificar que sea tcp
-* p es para desplegar el PID
+* t es para especificar que sea tcp.
+* p es para desplegar el PID.
 
 ![](.gitbook/assets/image%20%282%29.png)
 
 Una vez ya ejecutado nuestro **netstat** podemos visualizar que para la linea 4 existe el servicio que previamente se habia configurado \(Apache2\) y se esta ejecutando sobre 127.0.0.1:8080.
 
-Validamos si logramos alcanzar el servicio que esta ejecutandose en el puerto 8080 desde nuestra Kali.
+Validamos si logramos alcanzar el servicio que esta ejecutando en el puerto 8080 desde nuestra Kali.
 
 ![](.gitbook/assets/image%20%2842%29.png)
 
@@ -194,7 +192,7 @@ Y en efecto... no podemos alcanzar el servicio remotamente ya que se esta ejecut
 
 **ESTO AQUI ESTA MAL, PUSISTE LA CAPTURA ENTRANDO A LOCALHOST Y CLARO QUE NO TE IVA A DAR NADA, DEBES MOSTRAR LA CPTURA ENTRADO A LA IP DONDE ESTA CORREIENDO EL APACHE Y ASI VER QUE NO LO LOGRAS ALCANZAR.....ARREGLA ESTO**
 
-En respuesta a el intento anterior utilizaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirecciòn de puertos desde nuestro meterpreter.
+Dentro de nuestra sesión meterpreter, lanzaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirecciòn de puertos.
 
 ```text
 portfwd add -l 8081 -p 8080 -r 127.0.0.1
@@ -208,7 +206,7 @@ Seguido de esto realizamos la prueba abriendo nuestro navegador en la kali con l
 
 ![](.gitbook/assets/image%20%2821%29.png)
 
-Y como asegura el Apache2.. It works!
+Y como asegura el Apache2.. It works!.
 
 ### Port Forwarding o redireccionamiento de puertos con SSH local
 
@@ -231,7 +229,7 @@ Este comando se traduce de la siguiente manera:
 
 ![](.gitbook/assets/image%20%2836%29.png)
 
-Nuestro proceso ssh pasa al background, revisamos en nuestro explorador la ruta localhost:8081
+Nuestro proceso SSH pasa al background, revisamos en nuestro explorador la ruta **localhost:8081**.
 
 ![](.gitbook/assets/image%20%2834%29.png)
 
@@ -239,17 +237,17 @@ De esta manera conseguimos realizar un Port Forwarding entre nuestras maquinas.
 
 ## Pivoting
 
-Este es el proceso que se utiliza para acceder los recursos de una red a la cual no tenemos acceso, desde una red que previamente ya hayamos vulnerado y que si tenga visibilidad sobre esta red. Quiere decir que a travez de esta tecnica podremos llegar a una redes a traves de otras redes.
+Este es el proceso que se utiliza para acceder los recursos de una red a la cual no tenemos acceso, desde una red que previamente que ya hayamos vulnerado y que si tenga visibilidad sobre esta red. Quiere decir que a travez de esta tecnica podremos llegar a un redes a traves de otras redes.
 
-Para este lab como se meciono anteriormente utilizaremos el Metasploitable como victima...
+Para este laboratorio utilizaremos Ubuntu y Metasploitable como victimas.
 
 ### Sshuttle
 
-Esta herramienta nos permite enrutar redes ssh como si fuese conexiones de vpn.
+Esta herramienta nos permite enrutar redes SSH como si fuese conexiones de vpn.
 
 Con el Sshuttle realizaremos una conexiòn desde nuestra kali, hacia nuestro Ubuntu, y desde la ubuntu alcanzar los recursos o servicios de la Metasploitable.
 
-Para este Lab necesitamos tener nuestras IPs a mano.
+Para este laboratorio necesitamos tener nuestras IPs a mano.
 
 Kali
 
@@ -263,19 +261,19 @@ Metasploitable 2
 
 ![](.gitbook/assets/image%20%2813%29.png)
 
-Seguido, como primer paso debemos realizar la instalacion de nuestro Sshuttle
+Instalacion de  Sshuttle.
 
 ```text
 apt install sshuttle
 ```
 
-En este caso como ya tengo instalado el Sshuttle me saldra el siguiente mensaje
+En este caso como ya tengo instalado el Sshuttle me saldra el siguiente mensaje:
 
 ![](.gitbook/assets/image%20%2823%29.png)
 
 Seguido a la instalaciòn decidimos corroborar que en efecto no tenemos acceso a ver la Metasploitable2.
 
-NOTA: si les da algun tipo de error reinstalar sshuttle.
+NOTA: si les da algun tipo de error al realizar la conexcion con sshuttle, reinstalar sshuttle.
 
 ![](.gitbook/assets/image%20%2838%29.png)
 
@@ -287,11 +285,11 @@ Ejecutamos nuestro binario **Sshuttle**
 sshuttle -vr juss@192.168.1.139 172.16.250.129/16
 ```
 
-La cual detallamos de la sigueintee manera:
+La cual detallamos de la siguiente manera:
 
 * -v  este flag indica con la \(-v\) de verbose, de esta manera obtendremos una salida a la sentencia para poder ver lo que ocurre en el momento
 * -r permite ingresar un usuario.
-* seguido el usuario junto con la direcciòn ip 192.168.1.139 \(ubuntu\) y la direcciòn del segmento o cidr 172.16.250.129/16 \(metasploitable\) 
+* seguido el usuario junto con la direcciòn ip 192.168.1.139 \(ubuntu\) y la direcciòn del segmento o cidr 172.16.250.129/16 \(Metasploitable\).
 
 ![](.gitbook/assets/image%20%2816%29.png)
 
