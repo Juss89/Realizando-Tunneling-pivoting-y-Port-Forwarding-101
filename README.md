@@ -30,21 +30,21 @@ Para nuestra Kali vamos a tener la configuración de su red en modo _**Bridged**
 
 ![](.gitbook/assets/image%20%286%29.png)
 
-Nuestra Máquina con  Ubuntu tendra instalada dos tarjetas de red. Una de estas estara configurada en modo _**Bridged**_ y la otra tarjeta de red en modo _**Only-Host.**_
+Nuestra Máquina con  Ubuntu tendrá instalada dos tarjetas de red. Una de estas estará configurada en modo _**Bridged**_ y la otra tarjeta de red en modo _**Only-Host.**_
 
 ![](.gitbook/assets/image%20%2828%29.png)
 
-Nuestra Metasploitable tendra solo una tarjeta de red y estara en modo _**Only-Host**._
+Nuestra Metasploitable tendra solo una tarjeta de red y estará en modo _**Only-Host**._
 
 ![](.gitbook/assets/image%20%2814%29.png)
 
-De esta manera tendremos nuestra Kali compartiendo el mismo segmento de red que nuestra Ubuntu. Nuestra Ubuntu tendra acceso al segmento de red que comparte con la Kali y tendra visibilidad tambien sobre la Metasploitable pero nuesra Kali no lograra tener visilibidad sobre la Metasploitable.
+De esta manera tendremos nuestra Kali compartiendo el mismo segmento de red que nuestra Ubuntu. Nuestra Ubuntu tendrá acceso al segmento de red que comparte con la Kali y tendrá visibilidad también sobre la Metasploitable pero nuestra Kali no lograra tener visibilidad sobre la Metasploitable.
 
-Es importante realizar estas configuraciones de la manera correcta, confunsiones en esta parte provocarian que el laboratorio salga mal \(creanme puede salir todo mal...\).
+Es importante realizar estas configuraciones de la manera correcta,  para evitar confusiones en esta parte provocarían que el laboratorio salga mal \(créanme puede salir todo mal...\).
 
 ![](.gitbook/assets/image%20%2830%29.png)
 
-De manera grafica nuestro ambiente de pruebas seria el siguiente.
+De manera gráfica nuestro ambiente de pruebas seria el siguiente.
 
 ![](.gitbook/assets/untitled-document.jpg)
 
@@ -52,11 +52,11 @@ De manera grafica nuestro ambiente de pruebas seria el siguiente.
 
 ### Configuraciones del Ambiente de pruebas - Servicios
 
-Para efectos practicas unicamente instalaremos en la Ubuntu los servicios de **SSH** y **Apache**.
+Para efectos practicas únicamente instalaremos en la Ubuntu los servicios de **SSH** y **Apache**.
 
 **SSH**: para poder alcanzar el otro segmento de red y realizar Port Forwarding.
 
-**Apache**: para demostrar que logramos alcanzar un servicio desplegado sobre **localhost** unicamente.
+**Apache**: para demostrar que logramos alcanzar un servicio desplegado sobre **localhost** únicamente.
 
 #### Instalando y Configurando Apache
 
@@ -72,7 +72,7 @@ Iniciamos el servicios
 sudo systemctl start apache2
 ```
 
-Por defecto el servicio se despliega de forma que otras maquinas pueden alcanzar el servicio desde afuera, esto debemos modificarlo para que se despliegue sobre **localhost**.
+Por defecto el servicio se despliega de forma que otras máquinas pueden alcanzar el servicio desde afuera, esto debemos modificarlo para que se despliegue sobre **localhost**.
 
 El fichero que demos modificar esta en la ruta:
 
@@ -80,13 +80,13 @@ El fichero que demos modificar esta en la ruta:
 /etc/apache2/ports.conf
 ```
 
-Este fichera vendra por defecto de la siguiente manera:
+Esta fichera vendrá por defecto de la siguiente manera:
 
 ![](.gitbook/assets/image%20%2846%29.png)
 
 Reemplazaremos **0.0.0.0:80** por **127.0.0.1:8080**. \(Pueden escoger el puerto que ustedes decidan\).
 
-Nos quedaria asi:
+Nos quedaria asì:
 
 ![](.gitbook/assets/image%20%2844%29.png)
 
@@ -111,16 +111,16 @@ systemctl enable ssh
 systemctl start ssh
 ```
 
-NOTA: por defecto no se permite iniciar sesion por ssh con usuario root, necesitan crearse un usuario nuevo o habilitar el inicio de sesion del usuario root.
+NOTA: por defecto no se permite iniciar sesión por ssh con usuario root, necesitan crearse un usuario nuevo o habilitar el inicio de sesión del usuario root.
 
 ## Port Forwarding
 
-### Para este prueba utilizaremos dos herramientas:
+### Para esta prueba utilizaremos dos herramientas:
 
 * Metasploit
 * SSH
 
-El motivo de usar estas dos tecnicas es para aprender las maneras de realizar el Port Forwarding... **"si en tal situacion nos encontramos con que no podemos o no queremos ejecutar el metasploit"**
+El motivo de usar estas dos técnicas es para aprender las maneras de realizar el Port Forwarding... **"si en tal situaciòn nos encontramos con que no podemos o no queremos ejecutar el metasploit"**
 
 ### Utilizando Metasploit
 
@@ -189,8 +189,6 @@ Validamos si logramos alcanzar el servicio que esta ejecutando en el puerto 8080
 ![](.gitbook/assets/image%20%2848%29.png)
 
 Y en efecto... no podemos alcanzar el servicio remotamente ya que se esta ejecutando sobre **localhost**.
-
-**ESTO AQUI ESTA MAL, PUSISTE LA CAPTURA ENTRANDO A LOCALHOST Y CLARO QUE NO TE IVA A DAR NADA, DEBES MOSTRAR LA CPTURA ENTRADO A LA IP DONDE ESTA CORREIENDO EL APACHE Y ASI VER QUE NO LO LOGRAS ALCANZAR.....ARREGLA ESTO**
 
 Dentro de nuestra sesión meterpreter, lanzaremos el siguiente comando para poder realizar nuestro Port Forwarding o redirecciòn de puertos.
 
