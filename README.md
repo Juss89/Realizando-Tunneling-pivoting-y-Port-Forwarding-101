@@ -94,7 +94,7 @@ Pues.. para esto corremos el siguiente comando
 getuid
 ```
 
-![](.gitbook/assets/image%20%2840%29.png)
+![](.gitbook/assets/image%20%2841%29.png)
 
 Este comando permite consultar la cuenta que se esta ejecutando para el proceso del meterpreter.
 
@@ -119,7 +119,7 @@ Una vez ya ejecutado nuestro **netstat** podemos visualizar que para la linea 4 
 
 Aun asi estando ya dentro de nuestra maquina Ubuntu desde nuestro meterpreter validamos si el podemos ver la conexion en nuestro localhost sin haber realizado nuestro **Port Forwarding**
 
-![](.gitbook/assets/image%20%2841%29.png)
+![](.gitbook/assets/image%20%2842%29.png)
 
 Y en efecto... no podemos todavia desplegar la informaciòn desde nuestro localhost
 
@@ -266,7 +266,7 @@ El cual nos genera la sigueinte salida
 
 Una vez ya ejecutado nuestro binario de chisel asignando el trafico al puerto 8000 , podemos corroborar si mantenemos acceso a la metasploitable2
 
-![](.gitbook/assets/image%20%2839%29.png)
+![](.gitbook/assets/image%20%2840%29.png)
 
 Pues no... no tenemos acceso. En este punto, imaginamos que te preguntas... pero porque localhost? y ese puerto? por que no es el que señalo arriba el 8000? y si todas esas dudas la respondemos siguiendo este pequeño lab.
 
@@ -387,7 +387,13 @@ El cual detallamos a continuaciòn:
 
 ![](.gitbook/assets/image%20%2831%29.png)
 
-Seguido realizamos la configuracion en nuestro explorador
+Teniendo la conexiòn remota activa sobre nuestra maquina Ubuntu, decidimos realizar la prueba sobre nuestro explorador para saber si tenemos visibilidad sobre la Metasploitable2
+
+![](.gitbook/assets/image%20%2839%29.png)
+
+Y en efecto, no mantenemos visibilidad.
+
+Seguido a la prueba, realizamos la configuracionde conexiones en nuestro explorador
 
 * Seleccionamos la opcion Manual proxy configuracion
 * en SOCKS Host colocamos el ip de localhost \(127.0.0.1\)
